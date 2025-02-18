@@ -1,0 +1,269 @@
+* {
+    box-sizing: border-box;
+}
+
+/* Estilos generales */
+body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #f7f7f7, #eaeaea);
+    position: relative;
+    overflow: hidden;
+}
+
+.background {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centra verticalmente */
+    gap: 15px; /* Espacio entre las tarjetas */
+    position: relative;
+}
+
+
+    
+
+/* Botón regresar */
+.btnregresar {
+    position: absolute;
+    top:5px;
+    left: 20px;
+    background: var(--color-blue-dark);
+    color: white;
+    border: none;
+    padding: 50px 8px;
+    font-size: 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+/* Tarjeta */
+.card {
+    width: 350px;
+    height: auto;
+    background: white;
+    margin-top:5rem;
+    border-radius: 20px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    transform: translateX(-20rem);
+    padding: 40px;
+    border: 2px solid #ddd;
+    overflow: hidden; /* Esconde contenido que pueda desbordar */
+    position: absolute;
+}
+/* Evitar desbordes en texto */
+.card h2, .card p , .container p , .container h5 {
+    word-wrap: break-word; /* Rompe palabras largas */
+    text-align: center; /* Mantiene el texto alineado */
+}
+/* Nueva tarjeta vacía */
+.card-empty {
+    width: 350px;
+    height: auto;
+    position: relative;
+    transform: translateX(10rem);
+    background: white;
+    border-radius: 20px;
+    margin-right: 15px; /* Espacio entre las tarjetas */
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    margin-top: 4rem;
+}
+.container{
+    width: 100%;
+    height: 100%;
+    border: 1px solid #000;
+    border-radius: 1rem;
+}
+.text1-carnet{
+    margin-top: 10px;
+    font-size: 11px;
+    font-family: arial;
+    font-weight: lighter;
+}
+.text-carnet{
+    font-size: 11px;
+    font-family: arial;
+    font-weight: lighter;
+}
+.photo-firma{
+    margin-bottom: 1rem;
+    margin: 1rem;
+    margin-left: 4.8rem;
+
+}
+.fotofir{
+    width: 105px;
+    height: 50px;
+    margin-left: 0.5rem;
+}
+.firma{
+    font-size: 17px;
+    font-family: arial;
+    margin-left: 2rem;
+}
+.autoriza{
+    font-size: 14px;
+    font-weight: normal;
+    font-family: arial;
+    margin-top: 0.2rem;
+    margin-left: 1.8rem;
+}
+.text2-carnet{
+    font-size: 18px;
+    font-weight: lighter;
+    font-family: arial;
+    margin-top: 0.8rem;
+}
+
+/* Imágenes responsivas
+.photo-section .photo {
+    width: 100%;
+    max-width: 100px;  Limitar tamaño máximo
+    height:auto; Mantener proporciones
+    object-fit: cover;  Recorta imagen sin distorsión 
+    border: 1px solid #ddd;
+}
+*/
+/* Contenedor de canet */
+.header__carnet{
+    position: relative;
+    min-width: 150px;
+    width: 68%;
+    height: 5vh;
+    min-height: 5vh;
+    margin: 5vh auto;   /* Centrar el horizontalmente y verticalmente */
+    display: grid;
+    grid-template-areas: 
+            "aside content";
+    grid-template-columns: 45% 45%;
+    margin-bottom: 5.5rem;
+}
+/* Logo */
+.logo {
+    max-width: 70px;
+    margin-bottom: 4rem;
+}
+
+/* Foto */
+.carnet__photo {
+    width: 8rem;
+    height: 9rem;
+    display: flex;
+    padding-top: 1.5rem;
+}
+
+.photo {
+    width: 100px;
+    height:auto;
+    border-radius: 5px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    
+}
+
+/* Texto */
+.role {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #000;
+    margin: 10px 0 5px;
+    margin-right: 7.5rem;
+}
+
+.lineaverde {
+    width: 66%;
+    height: 2px;
+    background-color: #39A900;
+    border: none;
+    margin: 5px auto;
+}
+
+.nombre {
+    font-size: 1.2rem;
+    color: #39A900;
+    font-weight: lighter;
+    margin: 5px 0;
+    margin-right: 4.5rem;
+}
+.apellido{
+    font-size: 1.2rem;
+    color: #39A900;
+    font-weight:lighter;
+    margin:0;
+    margin-right: 7.2rem;
+}
+
+.docu, .tiposan, .region, .centro {
+    font-size: 1rem;
+    color: #000;
+    margin: 3px 0;
+    margin-right: 7rem;
+}
+.docu{
+    margin-right: 4rem;
+}
+.tiposan{
+    margin-right: 9.3rem;
+}
+.region {
+    color: #39A900;
+    font-weight: bold;
+    margin-right: 6rem;
+}
+
+.centro {
+    color: #000;
+    text-align: right;
+    margin-left: 3rem;
+    white-space: nowrap; /* Mantiene el texto en una sola línea */
+}
+
+/* Código de barras */
+.barcode {
+    width: 80%;
+    margin: 10px 0;
+    margin-left: 0.7rem;
+    white-space: nowrap;
+}
+.lineanegra{
+    width: 10%;
+    height: 1px;
+    background-color: #000;
+    border: none;
+    margin: 5px;
+    margin-right: 12rem;
+}
+
+/* Formas decorativas */
+.background::before, .background::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.background::before {
+    width: 100px;
+    height: 100px;
+    background:  #1F2A63;
+    top: -40px;
+    left: -50px;
+}
+
+.background::after {
+    width: 100px;
+    height: 100px;
+    background:#39A900;
+    bottom:-50px;
+    right:-50px;
+}

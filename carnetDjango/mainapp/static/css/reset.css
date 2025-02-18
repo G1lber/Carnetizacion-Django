@@ -1,0 +1,75 @@
+/* Elimina los márgenes y el relleno predeterminados de todos los elementos.
+   También asegura que el alineamiento vertical sea consistente. */
+   * {
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+
+/* Aplica el modelo de caja (box-sizing) para calcular el tamaño de los elementos
+   incluyendo borde y relleno, tanto para el elemento como sus pseudo-elementos (::before y ::after). */
+*,
+*::before,
+*::after {
+    box-sizing: border-box; /* Modelo de caja principal */
+    -webkit-box-sizing: border-box; /* Compatibilidad con navegadores basados en WebKit */
+    -moz-box-sizing: border-box; /* Compatibilidad con navegadores basados en Gecko */
+    /* Con navegadores mas antiguos que no tengan los modelos de cajas, esto incluye a todos los navegadores */
+}
+
+/* Activa el desplazamiento suave (smooth scrolling) para todo el documento, 
+hace que el desplazamiento de la pagina por links sea mas suave */
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+    min-height: 100vh; /* Asegura que el cuerpo ocupe al menos toda la altura visible */
+    scroll-behavior: smooth; /* Desplazamiento suave */
+    text-rendering: optimizeSpeed; /* Optimiza el renderizado de texto */
+    line-height: 1.5; /* Altura de línea predeterminada para mejor legibilidad */
+}
+
+/* Elimina los estilos predeterminados de listas (puntos o números). */
+ul, ol {
+    list-style: none;
+}
+
+/* Estilo general para enlaces (a):
+   - Elimina la decoración predeterminada (subrayado).
+   - Los hace elementos bloque por defecto para facilitar el clic en áreas más grandes. */
+a {
+    display: block; /* Los convierte en elementos bloque */
+    /* Para que empiece en otra linea y asi ocupe otro lugar */
+    text-decoration: none; /* Elimina el subrayado de los enlaces */
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+}
+
+/* Excepción para enlaces dentro de párrafos:
+   - Mantienen su comportamiento como elementos en línea (inline). */
+p a {
+    display: inline; /* Los enlaces en párrafos permanecen en línea */
+    /* Para que este alado de algo mas */
+}
+
+/* Configuración para medios como imágenes, videos, iframes y figuras:
+   - Asegura que no excedan el ancho de su contenedor.
+   - Los convierte en elementos bloque. */
+img, video, iframe, picture, figure {
+    max-width: 100%; /* Asegura que el contenido no desborde el contenedor */
+    display: block; 
+    
+}
+
+/* Estilo básico para formularios y sus elementos relacionados:
+   - Los hace bloques para alinearlos verticalmente.
+   - Heredan la fuente, tamaño y color del contenedor padre. */
+form, input, select, textarea, button, label {
+    display: block; /* Los alinea verticalmente */
+    font-family: inherit; /* Heredan la fuente del contenedor */
+    font-size: inherit; /* Heredan el tamaño de la fuente */
+    color: inherit; /* Heredan el color del texto */
+}

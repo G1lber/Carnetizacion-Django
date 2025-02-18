@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="e">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sena Carnet</title>
+  <link rel="stylesheet" href="assets/fonts/fontawesome-free-6.1.2-web/css/all.min.css"/>
+  <link rel="stylesheet" href={% static "css/reset.css" %}/>
+  <link rel="stylesheet" href={% static "css/styles.css" %}/>
+</head>
+<body>
+  <div class="container__login">
+    <section class="login__user">
+      <div class="login__img">
+        <img src="{% static "imagenes/logosena.png" %} " alt="SENA" width="120px">
+      </div>
+      {{error}}
+      <form class="login__form" method="POST">
+        {% csrf_token %}
+        <div class="container__form">
+            <div class="container__tittle">
+                <h5 class="tittle__admin">ADMIN</h5>
+            </div>
+          <div class="form__group">
+            <input type="text" class="form__input" name="username" placeholder="Numero de documento"  required>
+          </div>
+
+          <div class="form__group">
+            <input type="password" class="form__input" name="password" placeholder="Contraseña"  required>
+          </div>
+
+          <div class="form__button">
+            <input type="submit" class="btn" value="Ingresar">
+          </div>
+        </div>
+      </form>
+    </section>
+    <section class="container__key">
+      <img src="{% static "imagenes/img-key.png" %} " class="img__key" alt="Key Graphic">
+    </section>
+  </div>
+  <section class="circle__container">
+    <div class="bottom__circle"></div>
+    <div class="top__circle"></div> 
+  </section>
+</body>
+</html>

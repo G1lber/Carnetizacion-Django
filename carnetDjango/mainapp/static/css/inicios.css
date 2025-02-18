@@ -1,0 +1,385 @@
+
+:root {
+  --color-background: #ffffff; /* Fondo blanco */
+  --color-primary: #002b46; /* Azul oscuro */
+  --color-secondary: #ffffff; /* Blanco */
+  --color-text: #000000; /* Negro */
+  --font-family: "Poppins", Helvetica, sans-serif;
+  --border-radius: 1.5rem; /* Bordes redondeados */
+  --button-padding: 0.5rem 2rem;
+  --color-secundario: #39A900;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header {
+  padding: 2rem 2rem; /* Aumentar el espacio superior */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color-secondary);
+  justify-content: center;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 2rem; /* Mover la barra de navegación hacia abajo */
+}
+
+.nav__list {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav__link {
+  text-decoration: none;
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  padding: var(--button-padding);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.nav__link--active {
+  border-bottom: 3px solid var(--color-secondary);
+}
+
+.nav__link:hover {
+  background-color: #004f73; /* Color hover */
+}
+.container__nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  border: none;
+  padding: var(--button-padding);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 4rem; /* Separar más el botón de la lista de navegación */
+}
+.container__nav:hover{
+  background-color: #2e7c00; /* Color al pasar el cursor */
+  transform: scale(1.1); /* Agranda ligeramente el botón */
+}
+
+.main {
+  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+.welcome__1{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+ 
+}
+.welcome__container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.welcome__title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.welcome__text {
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 1.5rem auto;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.welcome__image{
+  position: relative;
+  width: 350px;
+  margin: 1.5rem auto;
+  line-height: 1.5;
+  text-align: right;
+}
+.img{
+  position: relative;
+  width: 350px;
+  height: 314px;
+  left: 1054px;
+  top: 222px;
+}
+
+.footer {
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  text-align: center;
+  padding: 1.5rem 0;
+  width: 100%;
+  margin-top: auto; /* Mantener el footer en la parte inferior */
+}
+
+.footer__social {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.footer__icon {
+  font-size: 1.5rem;
+  color: var(--color-secondary);
+  text-decoration: none;
+}
+.social__icon{
+  width: 4rem;
+}
+
+.footer__icon:hover {
+  color: #004f73; /* Hover para íconos */
+}
+
+.footer__copyright {
+  font-size: 0.875rem;
+}
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateX(45%);
+}
+.grey-button {
+  background-color: #c2b8b8; /* Color gris */
+  border-radius: 12px;
+  padding: 15px 25px;
+  display: flex;
+  align-items: top;
+  justify-content: space-between;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  width: 300px; /* Ancho del botón principal */
+  margin-right: 3rem;
+}
+
+/* Texto del botón gris */
+.grey-button span {
+  font-size: 16px;
+  color: #000000; /* Color del texto */
+}
+
+/* Botón verde */
+.green-button {
+  background-color: #39A900; /* Color verde */
+  color: #ffffff; /* Color del texto */
+  border: none;
+  border-radius: 8px; /* Bordes redondeados */
+  padding: 8px 20px; /* Espaciado interno */
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  transition: 0.3s ease;
+}
+
+
+/* Efecto hover para el botón verde */
+.green-button:hover {
+  background-color: var(--color-secundario); /* Color verde más oscuro al pasar el mouse */
+}
+/* tabla */
+
+.table {
+  width: 40%;
+  margin: 20px auto;
+  border-collapse: collapse;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.table th, .table td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.table th {
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+.table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table tr:hover {
+  background-color: #ddd;
+}
+/* Buscar */
+#search-input{
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #c2b8b8;
+  border-radius: 1rem;
+  width: 250px;
+  transition: all 0.3s ease;
+}
+.search-container{
+  display: flex;
+  gap: 1rem;
+}
+
+/* Estilo para el botón de búsqueda */
+.btn-search {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-search:hover {
+  background-color: #0056b3;
+}
+/* Estilo para los botones de Editar y Eliminar */
+.btn-edit, .btn-delete {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.btn-edit {
+  background-color:var(--color-secundario);
+  color: white;
+}
+
+.btn-edit:hover {
+  background-color: var(--color-secundario);
+}
+
+.btn-delete {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: var(--color-primary);
+}
+.table-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 20px 0;
+  color: var(--color-text);
+}
+/* Modal */
+/* Estilos para el botón */
+.green-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.green-button:hover {
+  background-color: #45a049;
+}
+
+/* Estilos para el contenedor del modal */
+.modal {
+  display: none; /* Escondido por defecto */
+  position: fixed;
+  z-index: 1; /* Para asegurarse de que está sobre el contenido */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4); /* Fondo oscuro semitransparente */
+}
+
+/* Estilos para el contenido del modal */
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 500px;
+}
+
+/* Estilos para el botón de cierre */
+.close-button {
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: black;
+  text-decoration: none;
+}
+
+/* Estilos para el formulario */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form label {
+  margin: 10px 0 5px;
+}
+
+form input {
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.submit-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #45a049;
+}

@@ -1,0 +1,366 @@
+
+:root{
+    --color-principal: #FFFFFF;
+    --color-secundario: #39A900;
+    --color-azul: #00304D;
+
+    --color-background: #F2F7f9;
+    --color-transparent: transparent;
+
+    --color-icon: #B5B6B7;
+    --color-titles: #222222;
+    --color-subtitle: #888;
+    --color-text:#555;
+
+    --color-border-reviews:#E5E6E7;
+    --color-company: #A5A6A7;
+    --color-background-certificate: #f5f5f5;
+    --color--background-contact: #fcfcfc;
+
+    --color-white: #FFFFFF;
+    --color-green: #39A900;
+    --color-blue: #00304D;
+    --color-gradient: linear-gradient(to bottom right, #39A900, #00304D);
+    --color-text: #222222;
+
+}
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--color-principal);
+    font-family: "Poppins", Helvetica, sans-serif;
+    font-size: 1.5rem;
+    overflow: hidden;
+    
+}
+/* Circulos login */
+
+.bottom__circle {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-35%);
+    width: 25rem;
+    height: 15.6rem;
+    background-color: var(--color-azul); 
+    border-top-left-radius: 25rem;
+    border-top-right-radius: 37.5rem;
+    z-index: 1;
+}
+
+.top__circle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateX(35%);
+    width: 35rem;
+    height: 20.6rem;
+    background-color: var(--color-secundario); 
+    border-bottom-left-radius: 37.5rem;
+    border-bottom-right-radius: 25rem;
+    z-index: 1;
+}
+/* Login */
+.container__login {
+    position: relative;
+    width: 75%;
+    height: 80vh;
+    display: grid; /* Uso de grid para dividir áreas */
+    grid-template-columns: 1fr 1fr; /* Dos columnas de igual tamaño */
+    align-items: center;
+    background-color: var(--color-transparent);
+    z-index: 1;
+}
+
+.login__user {
+    display: flex;
+    flex-direction: column; /* Apila los elementos verticalmente */
+    align-items: center; /* Centra los elementos horizontalmente */
+    justify-content: center; /* Centra los elementos verticalmente */
+}
+
+.login__img {
+    margin-bottom: 2rem;
+}
+
+.login__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tittle__admin{
+  font-size: 25px;
+  font-family: arial;
+  margin-bottom: 2rem;
+  text-align: center;
+  transition: all 300ms ease-in-out;
+  color: var(--color-azul);
+}
+.form__input {
+    width: 300px;
+    padding: 0.8rem;
+    border: 2px solid var(--color-text);
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.btn {
+    width: 300px;
+    padding: 1rem;
+    background-color: var(--color-secundario);
+    color: var(--color-titles);
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-align: center;
+}
+
+.btn:hover {
+    background-color: var(--color-background);
+    border: 2px solid var(--color-secundario);
+}
+
+.container__key {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.img__key {
+    max-width: 500px;
+    margin-left: 1rem;
+}
+/* Carnet Usu */
+.bottom__circle-carnet {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    transform: translateX(35%);
+    width: 20rem;
+    height: 13.6rem;
+    background-color: var(--color-green); 
+    border-top-left-radius: 37.5rem;
+    border-top-right-radius: 25rem;
+    z-index: 1;
+}
+.top__circle-carnet {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateX(-35%);
+    width: 35rem;
+    height: 20.6rem;
+    background-color: var(--color-azul);
+    border-bottom-left-radius: 25rem;
+    border-bottom-right-radius: 37.5rem;
+    z-index: 1;
+}
+.back-button{
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    position: absolute; /* Superposición sobre el fondo */
+    top: 5.2rem;
+    left: 5.2rem;
+    z-index: 2;
+}
+.circle-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+/* Admin inicio */
+:root {
+    --color-background: #ffffff; /* Fondo blanco */
+    --color-primary: #002b46; /* Azul oscuro */
+    --color-secondary: #ffffff; /* Blanco */
+    --color-text: #000000; /* Negro */
+    --font-family: "Poppins", Helvetica, sans-serif;
+    --border-radius: 1.5rem; /* Bordes redondeados */
+    --button-padding: 0.5rem 2rem;
+  }
+  
+  body {
+    margin: 0;
+    font-family: var(--font-family);
+    background-color: var(--color-background);
+    color: var(--color-text);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .header {
+    padding: 2rem 2rem; /* Aumentar el espacio superior */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-secondary);
+  }
+  
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 2rem; /* Mover la barra de navegación hacia abajo */
+  }
+  
+  .nav__list {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .nav__link {
+    text-decoration: none;
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    padding: var(--button-padding);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .nav__link--active {
+    border-bottom: 3px solid var(--color-secondary);
+  }
+  
+  .nav__link:hover {
+    background-color: #004f73; /* Color hover */
+  }
+  
+  .nav__admin {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    border: none;
+    padding: var(--button-padding);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    cursor: pointer;
+    margin-left: 4rem; /* Separar más el botón de la lista de navegación */
+  }
+  
+  .main {
+    text-align: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+  }
+  
+  .welcome__title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+  }
+  
+  .welcome__text {
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 1.5rem auto;
+    line-height: 1.5;
+  }
+  
+  .welcome__image img {
+    position: absolute;
+    width: 386px;
+    height: 324px;
+    left: 1025px;
+    top: 333px;
+  }
+  .button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .grey-button {
+    background-color: #c2b8b8; /* Color gris */
+    border-radius: 12px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    width: 300px; /* Ancho del botón principal */
+    margin-right: 3rem;
+  }
+  
+  /* Texto del botón gris */
+  .grey-button span {
+    font-size: 16px;
+    color: #000000; /* Color del texto */
+  }
+  
+  /* Botón verde */
+  .green-button {
+    background-color: #39A900; /* Color verde */
+    color: #ffffff; /* Color del texto */
+    border: none;
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 8px 20px; /* Espaciado interno */
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    transition: 0.3s ease;
+  }
+
+  
+  /* Efecto hover para el botón verde */
+  .green-button:hover {
+    background-color: #2f8a00; /* Color verde más oscuro al pasar el mouse */
+  }
+  .footer {
+    background-color: var(--color-primary);
+    color: var(--color-secondary);
+    text-align: center;
+    padding: 1.5rem 0;
+    width: 100%;
+    margin-top: auto; /* Mantener el footer en la parte inferior */
+  }
+  
+  .footer__social {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .footer__icon {
+    font-size: 1.5rem;
+    color: var(--color-secondary);
+    text-decoration: none;
+  }
+  
+  .footer__icon:hover {
+    color: #004f73; /* Hover para íconos */
+  }
+  
+  .footer__copyright {
+    font-size: 0.875rem;
+  }
+  
