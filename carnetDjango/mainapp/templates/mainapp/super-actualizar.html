@@ -1,0 +1,66 @@
+{% extends "layouts/layout.html" %}
+{% load static %}
+{% block contenthead %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-free-6.1.2-web/css/all.min.css"/>
+    <link rel="stylesheet" href= {% static "css/reset.css" %}>
+    <link rel="stylesheet" href= {% static "css/inicios.css" %}>
+    <link rel="stylesheet" href= {% static "css/responsive.css" %}>
+    <title>Actualizar Fichas</title>
+{% endblock contenthead %}
+
+{% block content %}
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Buscar por nombre...">
+        <button id="search-btn" class="btn-search">Buscar</button>
+    </div>
+    <table class="table">
+    <h2 class="table-title">Editar Ficha</h2>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Código</th>
+            <th>Acción</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Análisis Y Desarrollo de Software</td>
+            <td>2971602</td>
+            <td><button class="btn-edit">Editar</button></td>
+            
+        </tr>
+        <tr>
+            <td>Gestión Logística</td>
+            <td>98734384</td>
+            <td><button class="btn-edit">Editar</button></td>
+            
+        </tr>
+        <tr>
+            <td>Mercadeo y Ventas</td>
+            <td>2435678</td>
+            <td><button class="btn-edit">Editar</button></td>
+            
+        </tr>
+        <tr>
+            <td>Atención Integral a la Primera infancia</td>
+            <td>385843754</td>
+            <td><button class="btn-edit">Editar</button></td>
+        
+        </tr>
+        <tr>
+            <td>Seguridad Informática</td>
+            <td>2846273435</td>
+            <td><button class="btn-edit">Editar</button></td>
+        
+        </tr>
+        <tr>
+            <td>Fotografía</td>
+            <td>42536783</td>
+            <td><button class="btn-edit">Editar</button></td>
+        </tr>
+    </tbody>
+    </table>
+{% endblock content %}

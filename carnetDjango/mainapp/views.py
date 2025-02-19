@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserChangeForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 def index(request):
@@ -8,11 +8,8 @@ def index(request):
 
 def loginAdmin(request):
     if request.method == 'GET':
-        print("Enviando formulario")
         return render(request, 'mainapp/loginadmin.html')
     else:
-        print(request.POST)
-        print('Obteniendo datos')
         user= authenticate(request, username=request.POST['username'], password=request.POST['password'])
         if user is None:
             return render(request, 'mainapp/loginadmin.html',{
@@ -20,9 +17,23 @@ def loginAdmin(request):
             })
         else: 
             login(request, user)
-            return redirect('indexsuper')
+            return redirect('inicio')
     
            
 
-def indexsuper(request):
+def inicio(request):
     return render(request,'mainapp/super-inicio.html')
+
+def gestionar(request):
+    return render(request,'mainapp/super-gestionar.html')
+
+def ficha(request):
+    return render(request,'mainapp/super-ficha.html')
+
+def actualizarf(request):
+    return render(request,'mainapp/super-actualizar.html')
+
+# Esta views para cerrar la sesion
+def signout(request):
+    logout(request)
+    return redirect('/loginadmin/')

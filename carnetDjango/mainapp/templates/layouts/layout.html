@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        {% block contenthead %}
+        {% endblock contenthead %}
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+          <ul class="nav__list">
+            <li class="nav__item"><a href="{% url "inicio" %}" class="nav__link nav__link--active btn">Inicio</a></li>
+            <li class="nav__item"><a href="{% url "actualizarf" %}" class="nav__link btn">Actualizar</a></li>
+            <li class="nav__item"><a href="{% url "ficha" %}" class="nav__link btn">Fichas</a></li>
+            <li class="nav__item"><a href="{% url "gestionar" %}" class="nav__link btn">Gestionar Personal</a></li>
+          </ul>
+          <button class="container__nav btn">
+            {% comment %} <span class="nav__icon"><i class="fa-regular fa-user"></i></span> {% endcomment %}
+            <a href="{% url 'logout' %}" class="nav__text">Cerrar sesión</a>
+          </button>
+        </nav>
+    </header>
+    <main class="main">
+        {% block content %}
+
+        {% endblock content %}
+    </main>
+    <footer class="footer">
+        <div class="footer__social">
+          <a href="#" class="footer__icon"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#" class="footer__icon"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="footer__icon"><i class="fa-regular fa-envelope"></i></a>
+        </div>
+      <p class="footer__copyright">Copyright 2024</p>
+    </footer>      
+</body>
+</html>
+      

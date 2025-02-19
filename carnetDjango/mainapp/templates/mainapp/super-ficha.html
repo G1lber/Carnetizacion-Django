@@ -1,0 +1,94 @@
+{% extends "layouts/layout.html" %}
+{% load static %}
+{% block contenthead %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="assets/fonts/fontawesome-free-6.1.2-web/css/all.min.css"/>
+  <link rel="stylesheet" href= {% static "css/reset.css" %}>
+  <link rel="stylesheet" href= {% static "css/inicios.css" %}>
+  <link rel="stylesheet" href= {% static "css/responsive.css" %}>
+  <title>Fichas</title>
+{% endblock contenthead %}
+
+{% block content %}
+  <section class="welcome__1">
+    <div class="welcome__container"> 
+      <h1 class="welcome__title">FICHA</h1>
+      <p class="welcome__text">
+      Tener en cuenta lo siguiente al crear una ficha:
+      <br>
+      1.El numero de Ficha no debe existir
+      <br>
+      2.Sólo se anexarán a la ficha los aprendices que se 
+      encuentren en formación 
+      <br>
+      3.El archivo de excel deberá tener el formato
+      correcto (.cssv)
+      <br>
+      4. El orden de los datos en el Excel son de suma
+      importancia.
+      </p>
+    </div>
+    <div class="welcome__image">
+          <img src={% static "imagenes/img-key.png" %} alt="APY icon">
+    </div>
+    </section>
+        <div class="button-container">
+          <div class="grey-button">
+            <span>Crear una ficha</span>
+            <button class="green-button" id="createButton">CREAR</button>
+          </div>
+        </div>
+        <!-- Modal -->
+        <div id="modal" class="modal">
+          <div class="modal-content">
+              <span class="close-button" id="closeButton">&times;</span>
+              <h2>Crear Ficha</h2>
+              <!-- Formulario -->
+              <form>
+                  <div class="mb-3">
+                      <label for="numeroficha" class="form-label">Número de Ficha</label>
+                      <input type="text" class="form-control" id="numeroficha" placeholder="Número Ficha" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                  </div>
+                  <div class="mb-3">
+                      <label for="fechainicio" class="form-label">Fecha Inicio</label>
+                      <input type="date" class="form-control" id="fechainicio" placeholder="Fecha de Inicio">
+                  </div>
+                  <script>
+                      flatpickr("#fechainicio", {
+                          dateFormat: "Y-m-d",
+                          theme: "material_green"
+                      });
+                  </script>
+                  <div class="mb-3">
+                      <label for="fechafin" class="form-label">Fecha Finalización</label>
+                      <input type="date" class="form-control" id="fechafin" placeholder="Fecha de Fin">
+                  </div>
+                  <script>
+                      flatpickr("#fechafin", {
+                          dateFormat: "Y-m-d",
+                          theme: "material_green"
+                      });
+                  </script>
+                  <div class="mb-3">
+                      <label for="archivo" class="form-label">Cargar Aprendices</label>
+                      <input type="file" class="form-control" id="cargararchivo" placeholder="Cargar archivo">
+                  </div>
+                  <form method="post" enctype="multipart/form-data">
+                      <div>
+                          <label for="file">Cargar Fotos</label>
+                          <input type="file" id="file" name="file" multiple />
+                      </div>
+                  </form>
+      
+                  <button type="submit" class="submit-button">Guardar</button>
+              </form>
+          </div>
+      </div>
+      <script src="assets/js/script.js"></script>
+
+{% endblock content %}
+
+      
+          
+     

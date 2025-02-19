@@ -1,50 +1,28 @@
+{% extends "layouts/layout.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
+
+  {% block contenthead %}
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/fonts/fontawesome-free-6.1.2-web/css/all.min.css"/>
     <link rel="stylesheet" href= {% static "css/reset.css" %}>
     <link rel="stylesheet" href= {% static "css/inicios.css" %}>
     <title>Fichas</title>
-</head>
-<body>
-    <header class="header">
-        <nav class="nav">
-          <ul class="nav__list">
-            <li class="nav__item"><a href="super-inicio.html" class="nav__link nav__link--active btn">Inicio</a></li>
-            <li class="nav__item"><a href="super-actualizar.html" class="nav__link btn">Actualizar</a></li>
-            <li class="nav__item"><a href="super-ficha.html" class="nav__link btn">Fichas</a></li>
-            <li class="nav__item"><a href="super-gestinar.html" class="nav__link btn">Gestionar Personal</a></li>
-          </ul>
-          <button class="container__nav btn" onclick="window.location.href='loginadmin.html';">
-            <span class="nav__icon"><i class="fa-regular fa-user"></i></span>
-            <span class="nav__text"><a href="loginadmin.html"></a>SUPER</span>
-            <span class="nav__arrow">→</span>
-          </button>
-        </nav>
-    </header>
+
+  {% endblock contenthead %}
+
+  {% block content %}
+    <section class="welcome">
+      <h1 class="welcome__title">BIENVENIDO</h1>
+      <p class="welcome__text">
+        En este portal encontrará un grupo de opciones para crear y subir fichas, así como también actualizar datos de cada usuario como lo es la foto.
+      </p>
+      <div class="welcome__image">
+        <img src="apy" alt="APY icon">
+      </div>
+    </section>
+
+  {% endblock content %}
+        
       
-    <main class="main">
-        <section class="welcome">
-          <h1 class="welcome__title">BIENVENIDO</h1>
-          <p class="welcome__text">
-            En este portal encontrará un grupo de opciones para crear y subir fichas, así como también actualizar datos de cada usuario como lo es la foto.
-          </p>
-          <div class="welcome__image">
-            <img src="apy" alt="APY icon">
-          </div>
-        </section>
-      </main>
-      
-      <footer class="footer">
-          <div class="footer__social">
-            <a href="#" class="footer__icon"><i class="fa-brands fa-facebook"></i></a>
-            <a href="#" class="footer__icon"><i class="fa-brands fa-instagram"></i></a>
-            <a href="#" class="footer__icon"><i class="fa-regular fa-envelope"></i></a>
-          </div>
-        <p class="footer__copyright">Copyright 2024</p>
-      </footer>      
-</body>
-</html>

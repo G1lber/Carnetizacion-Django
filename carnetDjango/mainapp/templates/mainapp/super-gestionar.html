@@ -1,0 +1,61 @@
+{% extends "layouts/layout.html" %}
+{% load static %}
+
+{% block contenthead %}
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-free-6.1.2-web/css/all.min.css"/>
+    <link rel="stylesheet" href= {% static "css/reset.css" %}>
+    <link rel="stylesheet" href= {% static "css/inicios.css" %}>
+    <link rel="stylesheet" href= {% static "css/responsive.css" %}>
+    <title>Fichas</title>
+{% endblock contenthead %}
+
+{% block content %}
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Buscar por nombre...">
+        <button id="search-btn" class="btn-search">Buscar</button>
+    </div>
+    <table class="table">
+    <h2 class="table-title">Editar Personal</h2>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Acción</th>
+            <th>Eliminar</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Juan Pérez</td>
+            <td><button class="btn-edit">Editar</button></td>
+            <td><button class="btn-delete">Eliminar</button></td>
+        </tr>
+        <tr>
+            <td>Ana López</td>
+            <td><button class="btn-edit">Editar</button></td>
+            <td><button class="btn-delete">Eliminar</button></td>
+        </tr>
+        <tr>
+            <td>Carlos Gómez</td>
+            <td><button class="btn-edit">Editar</button></td>
+            <td><button class="btn-delete">Eliminar</button></td>
+        </tr>
+        <tr>
+            <td>Laura Martínez</td>
+            <td><button class="btn-edit">Editar</button></td>
+            <td><button class="btn-delete">Eliminar</button></td>
+        </tr>
+        <tr>
+            <td>José Ramírez</td>
+            <td><button class="btn-edit">Editar</button></td>
+            <td><button class="btn-delete">Eliminar</button></td>
+        </tr>
+        <tr>
+            <td>Beatriz Sánchez</td>
+            <td><button class="btn-edit">Editar</button></td>
+            <td><button class="btn-delete">Eliminar</button></td>
+        </tr>
+    </tbody>
+    </table>
+{% endblock content %}
