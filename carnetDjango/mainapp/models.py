@@ -1,3 +1,4 @@
+from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
 
 # Create your models here.
@@ -52,4 +53,15 @@ class Ficha(models.Model):
 
 class Rol(models.Model):
     nombre_rol = models.CharField(max_length=100)
-    
+
+class UsuarioPersonalizado(AbstractUser):
+    ficha = models.ForeignKey('Ficha', on_delete=models.SET_NULL, null=True, blank=True)
+    rol = models.ForeignKey('Rol', on_delete=models.SET_NULL, null=True, blank=True)
+    rh = models.ForeignKey('Rh', on_delete=models.SET_NULL, null=True, blank=True)
+    tipo_doc = models.ForeignKey('Tipo_doc', on_delete=models.SET_NULL, null=True, blank=True)
+
+    groups = models.ManyToManyField(Group, related_name="custom_user_groups", blank=True)
+    user_permissions = models.ManyToManyField(Permission, related_name="custom_user_permissions", blank=True)
+
+    def __str__(self):
+        return self.username
