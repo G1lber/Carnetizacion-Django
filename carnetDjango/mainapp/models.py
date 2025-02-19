@@ -48,13 +48,14 @@ class Tipo_doc(models.Model):
 
 class Ficha(models.Model):
     num_ficha = models.IntegerField(primary_key=True)
-    fecha_inicio = models.DateTimeField(blank=True, null=True)
+    fecha_inicio = models.DateField(blank=True, null=True)
     fecha_fin = models.DateField(blank=True, null=True )
 
 class Rol(models.Model):
     nombre_rol = models.CharField(max_length=100)
 
 class UsuarioPersonalizado(AbstractUser):
+    documento = models.CharField(max_length=20, unique=True, null=True, blank=True)
     ficha = models.ForeignKey('Ficha', on_delete=models.SET_NULL, null=True, blank=True)
     rol = models.ForeignKey('Rol', on_delete=models.SET_NULL, null=True, blank=True)
     rh = models.ForeignKey('Rh', on_delete=models.SET_NULL, null=True, blank=True)
