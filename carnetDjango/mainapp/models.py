@@ -14,19 +14,14 @@ class Tipo_doc(models.Model):
     def __str__(self):
         return self.nombre_doc 
 
-class Ficha(models.Model):
-    num_ficha = models.IntegerField(primary_key=True)
-    fecha_inicio = models.DateField(blank=True, null=True)
-    fecha_fin = models.DateField(blank=True, null=True )
-
 class Rol(models.Model):
     nombre_rol = models.CharField(max_length=100)
     def __str__(self):
         return self.nombre_rol
-
+ 
 class UsuarioPersonalizado(AbstractUser):
-    documento = models.CharField(max_length=20, unique=True, null=True, blank=True)
-    ficha = models.ForeignKey('Ficha', on_delete=models.SET_NULL, null=True, blank=True)
+    documento = models.CharField(max_length=20, unique=True, blank=True, primary_key=True)
+    # ficha = models.ForeignKey('Ficha', on_delete=models.SET_NULL, null=True, blank=True)
     rol = models.ForeignKey('Rol', on_delete=models.SET_NULL, null=True, blank=True)
     rh = models.ForeignKey('Rh', on_delete=models.SET_NULL, null=True, blank=True)
     tipo_doc = models.ForeignKey('Tipo_doc', on_delete=models.SET_NULL, null=True, blank=True)
@@ -36,3 +31,13 @@ class UsuarioPersonalizado(AbstractUser):
 
     def __str__(self):
         return self.username
+    
+class Ficha(models.Model):
+    num_ficha = models.IntegerField(primary_key=True)
+    fecha_inicio = models.DateField(blank=True, null=True)
+    fecha_fin = models.DateField(blank=True, null=True )
+    documento_user = models.ForeignKey('UsuarioPersonalizado', on_delete=models.SET_NULL, null=True, blank=True)
+
+class FichaXaprendiz(models.Model):
+    num_ficha_fk= models.ForeignKey('Ficha',on_delete=models.SET_NULL, null=True, blank=True)
+    documento_fk= models.ForeignKey('UsuarioPersonalizado',on_delete=models.SET_NULL, null=True, blank=True)
