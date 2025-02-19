@@ -45,3 +45,5 @@ class FichaXaprendiz(models.Model):
 class Carnet(models.Model):
     documento_fk= models.ForeignKey('UsuarioPersonalizado',on_delete=models.SET_NULL, null=True, blank=True)
     id_FichaXaprendiz= models.ForeignKey('FichaXaprendiz',on_delete=models.SET_NULL, null=True, blank=True)
+    fecha_fin = models.DateField(blank=True, null=True )
+    estado = models.BooleanField(default=True)  # Valor por defecto: True
