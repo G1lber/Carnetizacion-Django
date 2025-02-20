@@ -65,8 +65,6 @@ def listar_personal(request):
     return render(request, 'super-gestionar.html', {'usuario':usuario})
 
 
-
-
 #Views de Gestionar Personal
 def listar_personal(request):
     busqueda = request.GET.get("buscar", "")  # Si no hay valor en GET, será una cadena vacía
@@ -79,6 +77,7 @@ def listar_personal(request):
         ).distinct()
 
     return render(request, 'mainapp/super-gestionar.html', {'usuarios': usuarios, 'busqueda': busqueda})
+
 
 
 def signout(request):
