@@ -235,21 +235,25 @@ body {
   background-color: #ddd;
 }
 /* Buscar */
-#search-input{
+.search-input{
   padding: 10px;
   font-size: 16px;
   border: 1px solid #c2b8b8;
   border-radius: 1rem;
   width: 250px;
   transition: all 0.3s ease;
+  
 }
 .search-container{
   display: flex;
+  align-items: center;
   gap: 1rem;
 }
 
 /* Estilo para el botón de búsqueda */
 .btn-search {
+  position: relative;
+  bottom: 7px;
   padding: 10px 20px;
   font-size: 16px;
   color: #fff;
@@ -258,10 +262,6 @@ body {
   border-radius: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
-}
-.search-btn{
-  padding: 4px 8px;
-  font-size: 12px;
 }
 
 .btn-search:hover {

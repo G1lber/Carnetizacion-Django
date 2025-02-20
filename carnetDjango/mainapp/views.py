@@ -69,16 +69,17 @@ def listar_personal(request):
 
 #Views de Gestionar Personal
 def listar_personal(request):
-    busqueda = request.GET.get("buscar")
-    usuario = UsuarioPersonalizado.objects.all()
+    busqueda = request.GET.get("buscar", "")  # Si no hay valor en GET, será una cadena vacía
+    usuarios = UsuarioPersonalizado.objects.all()
 
     if busqueda:
-        usuario = UsuarioPersonalizado.objects.filter(
-            Q(documento__icontains=busqueda) |
-            Q(nombre__icontains=busqueda)  |
-            Q(apellidos__icontains =busqueda) 
+        usuarios = usuarios.filter(
+            Q(username__icontains=busqueda) |  # Filtrar solo si hay valor en busqueda
+            Q(documento__icontains=busqueda)
         ).distinct()
-    return render(request, 'mainapp/super-gestionar.html', {'usuario':usuario})
+
+    return render(request, 'mainapp/super-gestionar.html', {'usuarios': usuarios, 'busqueda': busqueda})
+
 
 
 # Esta views para cerrar la sesion

@@ -12,13 +12,14 @@
 {% endblock contenthead %}
 
 {% block content %}
-    {% csrf_token %}
-    <form method= "GET">
+    <form method="GET" action="{% url 'personal'%}">
         <div class="search-container">
-            <input type="text" id="search-input" placeholder="Buscar por nombre..." name="buscar" value= "{{request.GET.buscar}}">
+            <input type="text" class="search-input" placeholder="Buscar por nombre..." name="buscar" id="buscar" value="{{ busqueda }}">
             <button id="search-btn" class="btn-search" type="submit">Buscar</button>
         </div>
     </form>
+
+    {% if busqueda %}
 
     <table class="table">
     <h2 class="table-title">Editar Personal</h2>
@@ -32,11 +33,11 @@
         </tr>
     </thead>
     <tbody>
-        {% for usuario in usuario %}
+        {% for usuario in usuarios %}
             <tr>
-                <td>{{ usuario.nombre }}</td>
-                <td> {{ usuario.apellidos }}</td>
-                <td> {{usuario.documento}}</td>
+                <td>{{ usuario.username }}</td>
+                <td>{{ usuario.is_staff }}</td>
+                <td>{{ usuario.documento }}</td>
                 <td><button class="btn-edit">Editar</button></td>
                 <td><button class="btn-delete">Eliminar</button></td>
             </tr>
@@ -47,4 +48,5 @@
         {% endfor %}
     </tbody>
     </table>
+    {% endif%}
 {% endblock content %}
