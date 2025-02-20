@@ -3,9 +3,11 @@ const modal = document.getElementById("modal");
 const createButton = document.getElementById("createButton");
 const closeButton = document.getElementById("closeButton");
 
+
 if (createButton) {
     createButton.onclick = function() {
         console.log('Modal abierto');
+
         modal.classList.add("show");
     };
 }
@@ -21,7 +23,6 @@ if (closeButton) {
 // Cerrar modal cuando se haga clic fuera de él
 window.onclick = function(event) {
     if (event.target === modal) {
-        console.log('Modal cerrado desde el fondo');
         modal.classList.remove("show");
     }
 };

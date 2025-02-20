@@ -40,11 +40,9 @@ def ficha(request):
         })
     else:
         form =CreateFichaForms(request.POST)
-        print(request.POST)
         nueva_ficha= form.save(commit=False)
         nueva_ficha.save()
         return redirect('actualizarf')
-
 def actualizarf(request):
     fichas=Ficha.objects.all()
     return render(request,'mainapp/super-actualizar.html',{
