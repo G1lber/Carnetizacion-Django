@@ -267,6 +267,9 @@ body {
 .btn-search:hover {
   background-color: #0056b3;
 }
+#create-btn{
+  background-color: var(--color-secundario);
+}
 /* Estilo para los botones de Editar y Eliminar */
 .btn-edit, .btn-delete {
   padding: 8px 16px;
