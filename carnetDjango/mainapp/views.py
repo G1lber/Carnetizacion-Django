@@ -52,18 +52,7 @@ def actualizarf(request):
     })
 
 
-#Views de Gestionar Personal
-def listar_personal(request):
-    busqueda = request.GET.get("buscar")
-    usuario = UsuarioPersonalizado.objects.all()
 
-    if busqueda:
-        usuario = UsuarioPersonalizado.objects.filter(
-            Q(documento__icontains=busqueda) |
-            Q(nombre__incontains=busqueda)  |
-            Q(apellidos__incontains =busqueda) 
-        ).distinct()
-    return render(request, 'super-gestionar.html', {'usuario':usuario})
 
 
 #Views de Gestionar Personal
