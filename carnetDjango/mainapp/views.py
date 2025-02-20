@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth import authenticate, login, logout
+from .forms import CreateFichaForms
 
 # Create your views here.
 def index(request):
@@ -28,7 +29,9 @@ def gestionar(request):
     return render(request,'mainapp/super-gestionar.html')
 
 def ficha(request):
-    return render(request,'mainapp/super-ficha.html')
+    return render(request,'mainapp/super-ficha.html',{
+        'form': CreateFichaForms
+    })
 
 def actualizarf(request):
     return render(request,'mainapp/super-actualizar.html')
