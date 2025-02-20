@@ -12,9 +12,7 @@
 {% endblock contenthead %}
 
 {% block content %}
-
     <form method="GET" action="{% url 'personal'%}">
-
         <div class="search-container">
             <input type="text" class="search-input" placeholder="Buscar por nombre..." name="buscar" id="buscar" value="{{ busqueda }}">
             <button id="search-btn" class="btn-search" type="submit">Buscar</button>
@@ -41,7 +39,6 @@
                 <td>{{ usuario.username }}</td>
                 <td>{{ usuario.is_staff }}</td>
                 <td>{{ usuario.documento }}</td>
-
                 <td><button class="btn-edit">Editar</button></td>
                 <td><button class="btn-delete">Eliminar</button></td>
             </tr>
