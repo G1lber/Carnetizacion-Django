@@ -12,7 +12,7 @@
 {% endblock contenthead %}
 
 {% block content %}
-    {%{% csrf_token %}%}
+    {% csrf_token %}
     <form method= "GET">
         <div class="search-container">
             <input type="text" id="search-input" placeholder="Buscar por nombre..." name="buscar" value= "{{request.GET.buscar}}">

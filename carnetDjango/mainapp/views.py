@@ -78,7 +78,7 @@ def listar_personal(request):
             Q(nombre__incontains=busqueda)  |
             Q(apellidos__incontains =busqueda) 
         ).distinct()
-    return render(request, 'super-gestionar.html', {'usuario':usuario})
+    return render(request, 'mainapp/super-gestionar.html', {'usuario':usuario})
 
 
 # Esta views para cerrar la sesion
