@@ -338,8 +338,8 @@ body {
   align-items: center;
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.5);
-}
 
+}
 
 .modal-content {
   background: white;
@@ -350,14 +350,6 @@ body {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-
-/* Cuando el modal esté activo, aplicamos el centrado */
-.modal.show {
-  display: flex; /* ✅ Se activa correctamente */
-  align-items: center;
-  justify-content: center;
-  }
-  
 .modal-content input,
 .modal-content select,
 .modal-content textarea {
@@ -371,7 +363,6 @@ body {
 }
 
 /* Botón de cerrar dentro del modal */
-
 .close-button {
   position: absolute;
   top: 10px;
