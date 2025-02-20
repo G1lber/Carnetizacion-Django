@@ -74,6 +74,7 @@ def listar_personal(request):
         usuarios = usuarios.filter(
             Q(username__icontains=busqueda) |  # Filtrar solo si hay valor en busqueda
             Q(documento__icontains=busqueda)
+
         ).distinct()
     return render(request, 'mainapp/super-gestionar.html', {'usuarios': usuarios, 'busqueda': busqueda})
 

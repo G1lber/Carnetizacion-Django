@@ -41,6 +41,7 @@
                 <td>{{ usuario.username }}</td>
                 <td>{{ usuario.is_staff }}</td>
                 <td>{{ usuario.documento }}</td>
+
                 <td><button class="btn-edit">Editar</button></td>
                 <td><button class="btn-delete">Eliminar</button></td>
             </tr>
@@ -49,7 +50,6 @@
                 <td colspan="3">No se encontraron resultados</td>
             </tr>
         {% endfor %}
-
     </tbody>
     </table>
     {% endif%}
