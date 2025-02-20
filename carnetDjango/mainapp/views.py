@@ -8,6 +8,7 @@ from django.db.models import Q
 
 
 
+
 # Create your views here.
 def index(request):
     return render(request,'mainapp/index.html')
@@ -65,6 +66,7 @@ def listar_personal(request):
 
 
 
+
 #Views de Gestionar Personal
 def listar_personal(request):
     busqueda = request.GET.get("buscar", "")  # Si no hay valor en GET, será una cadena vacía
@@ -79,8 +81,6 @@ def listar_personal(request):
     return render(request, 'mainapp/super-gestionar.html', {'usuarios': usuarios, 'busqueda': busqueda})
 
 
-
-# Esta views para cerrar la sesion
 def signout(request):
     logout(request)
     return redirect('/loginadmin/')
