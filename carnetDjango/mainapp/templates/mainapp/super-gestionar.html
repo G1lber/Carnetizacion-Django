@@ -12,50 +12,42 @@
 {% endblock contenthead %}
 
 {% block content %}
-    <div class="search-container">
-        <input type="text" id="search-input" placeholder="Buscar por nombre...">
-        <button id="search-btn" class="btn-search">Buscar</button>
-    </div>
+    <form method="GET" action="{% url 'personal'%}">
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Buscar por nombre..." name="buscar" id="buscar" value="{{ busqueda }}">
+            <button id="search-btn" class="btn-search" type="submit">Buscar</button>
+            <button id="create-btn" class="btn-search" type="submit">Crear</button>
+        </div>
+    </form>
+
+    {% if busqueda %}
+
     <table class="table">
     <h2 class="table-title">Editar Personal</h2>
     <thead>
         <tr>
             <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Documento</th>
             <th>Acción</th>
             <th>Eliminar</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>Juan Pérez</td>
-            <td><button class="btn-edit">Editar</button></td>
-            <td><button class="btn-delete">Eliminar</button></td>
-        </tr>
-        <tr>
-            <td>Ana López</td>
-            <td><button class="btn-edit">Editar</button></td>
-            <td><button class="btn-delete">Eliminar</button></td>
-        </tr>
-        <tr>
-            <td>Carlos Gómez</td>
-            <td><button class="btn-edit">Editar</button></td>
-            <td><button class="btn-delete">Eliminar</button></td>
-        </tr>
-        <tr>
-            <td>Laura Martínez</td>
-            <td><button class="btn-edit">Editar</button></td>
-            <td><button class="btn-delete">Eliminar</button></td>
-        </tr>
-        <tr>
-            <td>José Ramírez</td>
-            <td><button class="btn-edit">Editar</button></td>
-            <td><button class="btn-delete">Eliminar</button></td>
-        </tr>
-        <tr>
-            <td>Beatriz Sánchez</td>
-            <td><button class="btn-edit">Editar</button></td>
-            <td><button class="btn-delete">Eliminar</button></td>
-        </tr>
+        {% for usuario in usuarios %}
+            <tr>
+                <td>{{ usuario.username }}</td>
+                <td>{{ usuario.is_staff }}</td>
+                <td>{{ usuario.documento }}</td>
+                <td><button class="btn-edit">Editar</button></td>
+                <td><button class="btn-delete">Eliminar</button></td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="3">No se encontraron resultados</td>
+            </tr>
+        {% endfor %}
     </tbody>
     </table>
+    {% endif%}
 {% endblock content %}

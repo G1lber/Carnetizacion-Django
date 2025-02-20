@@ -2,7 +2,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth import authenticate, login, logout
 from .forms import CreateFichaForms
-from .models import Ficha
+from .models import Ficha, UsuarioPersonalizado
+from django.db.models import Q
+
+
+
+
 
 # Create your views here.
 def index(request):
@@ -36,7 +41,6 @@ def ficha(request):
         })
     else:
         form =CreateFichaForms(request.POST)
-        print(request.POST)
         nueva_ficha= form.save(commit=False)
         nueva_ficha.save()
         return redirect('actualizarf')
@@ -47,7 +51,23 @@ def actualizarf(request):
         'fichas':fichas
     })
 
-# Esta views para cerrar la sesion
+
+
+
+
+#Views de Gestionar Personal
+def listar_personal(request):
+    busqueda = request.GET.get("buscar", "")  # Si no hay valor en GET, será una cadena vacía
+    usuarios = UsuarioPersonalizado.objects.all()
+
+    if busqueda:
+        usuarios = usuarios.filter(
+            Q(username__icontains=busqueda) |  # Filtrar solo si hay valor en busqueda
+            Q(documento__icontains=busqueda)
+        ).distinct()
+    return render(request, 'mainapp/super-gestionar.html', {'usuarios': usuarios, 'busqueda': busqueda})
+
+
 def signout(request):
     logout(request)
     return redirect('/loginadmin/')
