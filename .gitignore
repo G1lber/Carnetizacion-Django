@@ -1,0 +1,6 @@
+# Ignorar archivos compilados de Python
+*.pyc
+__pycache__/
+
+# Ignorar migraciones innecesarias
+mainapp/migrations/*.pyc
