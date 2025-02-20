@@ -22,8 +22,6 @@ class Rol(models.Model):
 class UsuarioPersonalizado(AbstractUser):
     documento = models.CharField(max_length=20, unique=True, blank=True, primary_key=True)
     # ficha = models.ForeignKey('Ficha', on_delete=models.SET_NULL, null=True, blank=True)
-    nombre = models.CharField(max_length= 200)
-    apellidos = models.CharField(max_length=150)
     rol = models.ForeignKey('Rol', on_delete=models.SET_NULL, null=True, blank=True)
     rh = models.ForeignKey('Rh', on_delete=models.SET_NULL, null=True, blank=True)
     tipo_doc = models.ForeignKey('Tipo_doc', on_delete=models.SET_NULL, null=True, blank=True)
