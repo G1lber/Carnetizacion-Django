@@ -12,10 +12,14 @@
 {% endblock contenthead %}
 
 {% block content %}
-    <div class="search-container">
-        <input type="text" id="search-input" placeholder="Buscar por nombre...">
-        <button id="search-btn" class="btn-search">Buscar</button>
-    </div>
+    {%{% csrf_token %}%}
+    <form method= "GET">
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Buscar por nombre..." name="buscar" value= "{{request.GET.buscar}}">
+            <button id="search-btn" class="btn-search" type="submit">Buscar</button>
+        </div>
+    </form>
+
     <table class="table">
     <h2 class="table-title">Editar Personal</h2>
     <thead>
@@ -27,7 +31,7 @@
     </thead>
     <tbody>
         <tr>
-            <td>Juan Pérez</td>
+            <td>Juan Rodallega</td>
             <td><button class="btn-edit">Editar</button></td>
             <td><button class="btn-delete">Eliminar</button></td>
         </tr>

@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import listar_personal
 urlpatterns = [
     path('', views.index, name="index"),
     path('loginadmin/', views.loginAdmin, name="loginadmin"),
@@ -7,6 +8,7 @@ urlpatterns = [
     path('gestionarsuperusu/', views.gestionar, name='gestionar'),
     path('ficha/', views.ficha, name='ficha'),
     path('actualizarf/', views.actualizarf, name='actualizarf'),
+    path('personal/', views.listar_personal, name='personal'),
     path('logout/', views.signout, name='logout'),
     
 ]
