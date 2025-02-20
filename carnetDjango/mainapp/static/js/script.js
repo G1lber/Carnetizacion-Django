@@ -3,9 +3,9 @@ const modal = document.getElementById("modal");
 const createButton = document.getElementById("createButton");
 const closeButton = document.getElementById("closeButton");
 
-// Mostrar modal cuando se haga clic en el botón "CREAR"
 if (createButton) {
     createButton.onclick = function() {
+        console.log('Modal abierto');
         modal.classList.add("show");
     };
 }
@@ -13,6 +13,7 @@ if (createButton) {
 // Cerrar modal cuando se haga clic en el botón de cerrar
 if (closeButton) {
     closeButton.onclick = function() {
+        console.log('Modal cerrado');
         modal.classList.remove("show");
     };
 }
@@ -20,6 +21,7 @@ if (closeButton) {
 // Cerrar modal cuando se haga clic fuera de él
 window.onclick = function(event) {
     if (event.target === modal) {
+        console.log('Modal cerrado desde el fondo');
         modal.classList.remove("show");
     }
 };

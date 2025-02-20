@@ -314,20 +314,25 @@ body {
   background-color: #45a049;
 }
 
-/* Estilos para el contenedor del modal */
 .modal {
-  display: none; /* ✅ Mantener oculto inicialmente */
+  display: none; /* Asegúrate de que inicialmente esté oculto */
   position: fixed;
   z-index: 1000;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-
-  /* Eliminar "display: flex;" aquí */
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
 }
 
+/* Cuando el modal tiene la clase .show */
+.modal.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Modal content */
 .modal-content {
   background: white;
   padding: 20px;
@@ -337,23 +342,17 @@ body {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Cuando el modal esté activo, aplicamos el centrado */
-.modal.show {
-  display: flex; /* ✅ Se activa correctamente */
-  align-items: center;
-  justify-content: center;
-  }
-  
+/* Estilos adicionales */
 .modal-content input,
 .modal-content select,
 .modal-content textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
 }
 
 /* Botón de cerrar dentro del modal */

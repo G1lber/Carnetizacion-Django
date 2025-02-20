@@ -35,8 +35,8 @@ def ficha(request):
             'form': CreateFichaForms
         })
     else:
-
         form =CreateFichaForms(request.POST)
+        print(request.POST)
         nueva_ficha= form.save(commit=False)
         nueva_ficha.save()
         return redirect('actualizarf')
