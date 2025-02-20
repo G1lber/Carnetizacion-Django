@@ -25,41 +25,26 @@
     <thead>
         <tr>
             <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Documento</th>
             <th>Acción</th>
             <th>Eliminar</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>Juan Rodallega</td>
-            <td><button class="btn-edit">Editar</button></td>
-            <td><button class="btn-delete">Eliminar</button></td>
-        </tr>
-        <tr>
-            <td>Ana López</td>
-            <td><button class="btn-edit">Editar</button></td>
-            <td><button class="btn-delete">Eliminar</button></td>
-        </tr>
-        <tr>
-            <td>Carlos Gómez</td>
-            <td><button class="btn-edit">Editar</button></td>
-            <td><button class="btn-delete">Eliminar</button></td>
-        </tr>
-        <tr>
-            <td>Laura Martínez</td>
-            <td><button class="btn-edit">Editar</button></td>
-            <td><button class="btn-delete">Eliminar</button></td>
-        </tr>
-        <tr>
-            <td>José Ramírez</td>
-            <td><button class="btn-edit">Editar</button></td>
-            <td><button class="btn-delete">Eliminar</button></td>
-        </tr>
-        <tr>
-            <td>Beatriz Martinez</td>
-            <td><button class="btn-edit">Editar</button></td>
-            <td><button class="btn-delete">Eliminar</button></td>
-        </tr>
+        {% for usuario in usuario %}
+            <tr>
+                <td>{{ usuario.nombre }}</td>
+                <td> {{ usuario.apellidos }}</td>
+                <td> {{usuario.documento}}</td>
+                <td><button class="btn-edit">Editar</button></td>
+                <td><button class="btn-delete">Eliminar</button></td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="3">No se encontraron resultados</td>
+            </tr>
+        {% endfor %}
     </tbody>
     </table>
 {% endblock content %}

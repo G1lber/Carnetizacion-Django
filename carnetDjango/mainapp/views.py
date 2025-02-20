@@ -75,8 +75,8 @@ def listar_personal(request):
     if busqueda:
         usuario = UsuarioPersonalizado.objects.filter(
             Q(documento__icontains=busqueda) |
-            Q(nombre__incontains=busqueda)  |
-            Q(apellidos__incontains =busqueda) 
+            Q(nombre__icontains=busqueda)  |
+            Q(apellidos__icontains =busqueda) 
         ).distinct()
     return render(request, 'mainapp/super-gestionar.html', {'usuario':usuario})
 
