@@ -21,7 +21,7 @@ class CreatePersonalForm(ModelForm):
             'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Apellidos'}),
             'documento': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Número de Documento'}),
-            'tipo_doc': forms.SelectMultiple(attrs={'class': 'form-control'}),
+            'tipo_doc': forms.Select(attrs={'class': 'form-control'}),
             'rol': forms.Select(attrs={'class': 'form-control'}),
             'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Usuario'}),
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Correo'}),

@@ -16,51 +16,12 @@
         <div class="search-container">
             <input type="text" class="search-input" placeholder="Buscar por nombre..." name="buscar" id="buscar" value="{{ busqueda }}">
             <button id="search-btn" class="btn-search" type="submit">Buscar</button>
-            <button class="green-button" id="createPersonal">Crear</button>
-            <div id="modal" class="modal">
-                <div class="modal-content">
-                    <span class="close-button" id="closeButton">&times;</span>
-                    <h2>Crear Usuario</h2>
-                        <form method="POST">
-                            {% csrf_token %}
-                            {{ form }}
-                            {% comment %} <label for="first_name">Nombre: </label>
-                            <input type="text" name="first_name" required>
-                            <br>
-                            <label for="last_name">Apellidos: </label>
-                            <input type="text" name="last_name" required>
-                            <br>
-                            <label for="documento">Número de Documento: </label>
-                            <input type="text" name="documento" required>
-                            <br>
-                            <label for="tipo_doc">Tipo de Documento: </label>
-                            <select name="tipo_doc" required>
-                                <option value="admin">Administrador</option>
-                                <option value="Instructor">Instructor</option>
-                            </select>
-                            <br>
-                            <label for="rol">Rol: </label>
-                            <input type="text" name="rol" required>
-                            <br>
-                            <label for="username">Usuario: </label>
-                            <input type="text" name="username" required>
-                            <br>
-                            <label for="email">Email: </label>
-                            <input type="email" name="email" required>
-                            <br>
-                            <label for="password">Contraseña: </label>
-                            <input type="password" name="password" required>
-                            <br>
-                            <button type="submit">Enviar</button> {% endcomment %}
-                            <button type="submit" class="submit-button">Guardar</button>
-                        </form>
-                    </div>
-                 </div>
-
+        </div>
+    </form>
+    <button class="green-button" id="createPersonal" action= "{% url 'crearusu'%}">Crear</button>
     {% if busqueda %}
 
     <table class="table">
-    <h2 class="table-title">Editar Personal</h2>
     <thead>
         <tr>
             <th>Nombre</th>
@@ -73,7 +34,7 @@
     <tbody>
         {% for usuario in usuarios %}
             <tr>
-                <td>{{ usuario.username }}</td>
+                <td>{{ usuario.first_name }}</td>
                 <td>{{ usuario.is_staff }}</td>
                 <td>{{ usuario.documento }}</td>
                 <td><button class="btn-edit" id="editarPersonal">Editar</button></td>
@@ -87,5 +48,17 @@
     </tbody>
     </table>
     {% endif%}
-    <script src="{% static "js/script.js" %}"></script>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeButton">&times;</span>
+            <h2>Crear Usuario</h2>
+                <form method="POST" action= "{% url 'crearusu'%}">
+                    {% csrf_token %}
+                    {{ form }}
+                    <button type="submit" class="submit-button">Guardar</button>
+                </form>
+            </div>
+        </div>
+    
+    <script src="{% static "js/script.js" %}"></script>    
 {% endblock content %}

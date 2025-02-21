@@ -32,7 +32,9 @@ def inicio(request):
     return render(request,'mainapp/super-inicio.html')
 
 def gestionar(request):
-    return render(request,'mainapp/super-gestionar.html')
+    return render(request,'mainapp/super-gestionar.html', {
+        'form': CreatePersonalForm
+        })
 
 def ficha(request):
     if request.method == 'GET':
@@ -62,23 +64,25 @@ def listar_personal(request):
 
     if busqueda:
         usuarios = usuarios.filter(
-            Q(username__icontains=busqueda) |  # Filtrar solo si hay valor en busqueda
+            Q(first_name__icontains=busqueda) |  # Filtrar solo si hay valor en busqueda
             Q(documento__icontains=busqueda)
         ).distinct()
-    return render(request, 'mainapp/super-gestionar.html', {'usuarios': usuarios, 'busqueda': busqueda})
+        
+    return render(request, 'mainapp/super-gestionar.html', {'usuarios': usuarios, 'busqueda': busqueda, 'form':CreatePersonalForm})
 
-#Crear Personal
 def personal(request):
-    if request.method == 'GET':
-        return render(request,'mainapp/super-gestionar.html',{
-            'form': CreatePersonalForm()
-        })
+    # Si el formulario se envía (POST)
+    if request.method == 'POST':
+        form = CreatePersonalForm(request.POST)
+        if form.is_valid():
+            form.save()  # Guarda el nuevo usuario o la ficha
+            return redirect('personal')  # Redirige a la misma página después de guardar
     else:
-        form =CreatePersonalForm(request.POST)
-        nuevo_usuario= form.save(commit=False)
-        nuevo_usuario.save()
-        return redirect('personal')
+        form = CreatePersonalForm()  # Si la petición es GET, solo cargamos el formulario vacío
 
+    return render(request, 'mainapp/super-gestionar.html', {
+        'form': form  # Enviamos el formulario a la plantilla
+    })
 
 def signout(request):
     logout(request)
