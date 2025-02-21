@@ -1,6 +1,7 @@
 // Obtén los elementos del DOM
 const modal = document.getElementById("modal");
 const createButton = document.getElementById("createButton");
+const createPersonal = document.getElementById("createPersonal");
 const closeButton = document.getElementById("closeButton");
 
 
@@ -11,7 +12,13 @@ if (createButton) {
         modal.classList.add("show");
     };
 }
+if (createPersonal) {
+    createPersonal.onclick = function() {
+        console.log('Modal abierto');
 
+        modal.classList.add("show");
+    };
+}
 // Cerrar modal cuando se haga clic en el botón de cerrar
 if (closeButton) {
     closeButton.onclick = function() {

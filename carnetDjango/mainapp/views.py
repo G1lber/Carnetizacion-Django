@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth import authenticate, login, logout
-from .forms import CreateFichaForms
+from .forms import CreateFichaForms,CreatePersonalForm
 from .models import Ficha, UsuarioPersonalizado
 from django.db.models import Q
 
@@ -46,7 +46,7 @@ def ficha(request):
         return redirect('actualizarf')
 
 def actualizarf(request):
-    fichas=Ficha.objects.all()
+    fichas= Ficha.objects.all()
     return render(request,'mainapp/super-actualizar.html',{
         'fichas':fichas
     })
@@ -66,6 +66,18 @@ def listar_personal(request):
             Q(documento__icontains=busqueda)
         ).distinct()
     return render(request, 'mainapp/super-gestionar.html', {'usuarios': usuarios, 'busqueda': busqueda})
+
+#Crear Personal
+def personal(request):
+    if request.method == 'GET':
+        return render(request,'mainapp/super-gestionar.html',{
+            'form': CreatePersonalForm()
+        })
+    else:
+        form =CreatePersonalForm(request.POST)
+        nuevo_usuario= form.save(commit=False)
+        nuevo_usuario.save()
+        return redirect('personal')
 
 
 def signout(request):
