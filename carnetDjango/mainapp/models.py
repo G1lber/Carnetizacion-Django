@@ -37,6 +37,7 @@ class Ficha(models.Model):
     fecha_inicio = models.DateField(blank=True, null=True)
     fecha_fin = models.DateField(blank=True, null=True )
     documento_user = models.ForeignKey('UsuarioPersonalizado', on_delete=models.SET_NULL, null=True, blank=True)
+    estado = models.BooleanField(default=True)
 
 class FichaXaprendiz(models.Model):
     num_ficha_fk= models.ForeignKey('Ficha',on_delete=models.SET_NULL, null=True, blank=True)

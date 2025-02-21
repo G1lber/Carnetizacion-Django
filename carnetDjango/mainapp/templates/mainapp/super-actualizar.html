@@ -11,10 +11,12 @@
 {% endblock contenthead %}
 
 {% block content %}
+<form method="GET" action="{% url 'actualizarf'%}">
     <div class="search-container">
-        <input type="text" id="search-input" placeholder="Buscar por nombre...">
-        <button id="search-btn" class="btn-search">Buscar</button>
+        <input type="text" class="search-input" placeholder="Buscar por nombre..." name="buscar" id="buscar" value="{{ busqueda }}">
+        <button id="search-btn" class="btn-search" type="submit">Buscar</button>
     </div>
+</form>
     <table class="table">
         <h2 class="table-title">Editar Ficha</h2>
         <thead>
@@ -30,16 +32,39 @@
             <tr>
                 <td>{{ficha.fecha_fin}}</td>
                 <td>{{ficha.num_ficha}}</td>
-                <td><button class="btn-edit">Editar</button></td>
-                
+                <td>
+                    <button class="btn-edit" data-id="{{ ficha.num_ficha }}">Editar</button>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">No se encontraron resultados</td>
             </tr>
         {% endfor %}
-        <tr>
-            <td>Análisis Y Desarrollo de Software</td>
-            <td>2971602</td>
-            <td><button class="btn-edit">Editar</button></td>
-            
-        </tr>
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <span class="close">X</span>
+                <h2>Editar Ficha</h2>
+                <form id="editForm" action="{% url 'editarficha'%}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" id="fichaId" name="fichaId">
+                    <div class="mb-3">
+                        <label for="fechaInicio">Fecha de inicio:</label>
+                        <input type="date" id="fechaInicio" class="form-control" name="fechaInicio">
+                    </div>
+                    <div class="mb-3">
+                        <label for="fechaFin">Fecha de fin:</label>
+                        <input type="date" id="fechaFin" name="fechaFin">
+                    </div>
+                    <div class="mb-3">
+                        <label for="estado">Activo</label>
+                        <input type="checkbox" id="estado" name="estado">
+                    </div>
+                    <button type="submit" class="submit-button">Guardar cambios</button>
+                </form>
+            </div>
+        </div>
     </tbody>
     </table>
+    <script src="{% static "js/modal-editar.js" %}"></script>
 {% endblock content %}
