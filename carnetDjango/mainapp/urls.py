@@ -10,6 +10,7 @@ urlpatterns = [
     path('actualizarf/', views.actualizarf, name='actualizarf'),
     path('editarficha/', views.editarficha, name='editarficha'),
     path('personal/', views.listar_personal, name='personal'),
+    path('crearusu/', views.personal, name='crearusu'),
     path('logout/', views.signout, name='logout'),
     path('obtener-ficha/<int:ficha_id>/', views.obtener_ficha, name='obtener_ficha'),
 

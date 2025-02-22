@@ -1,13 +1,21 @@
 // Obtén los elementos del DOM
 const modal = document.getElementById("modal");
 const createButton = document.getElementById("createButton");
+const createPersonal = document.getElementById("createPersonal");
 const closeButton = document.getElementById("closeButton");
 
-
 if (createButton) {
-    createButton.onclick = function() {
+    createButton.onclick = function(event) {
+        event.preventDefault();  // Previene que el formulario se envíe y la página se recargue
         console.log('Modal abierto');
+        modal.classList.add("show");
+    };
+}
 
+if (createPersonal) {
+    createPersonal.onclick = function(event) {
+        event.preventDefault();  // Previene que el formulario se envíe y la página se recargue
+        console.log('Modal abierto');
         modal.classList.add("show");
     };
 }
@@ -15,9 +23,7 @@ if (createButton) {
 // Cerrar modal cuando se haga clic en el botón de cerrar
 if (closeButton) {
     closeButton.onclick = function() {
-
         console.log('Modal cerrado');
-
         modal.classList.remove("show");
     };
 }

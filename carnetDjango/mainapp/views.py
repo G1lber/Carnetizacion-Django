@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth import authenticate, login, logout
-from .forms import CreateFichaForms
+from .forms import CreateFichaForms,CreatePersonalForm
 from .models import Ficha, UsuarioPersonalizado
 from django.db.models import Q
 from django.http import JsonResponse
@@ -32,7 +32,9 @@ def inicio(request):
     return render(request,'mainapp/super-inicio.html')
 
 def gestionar(request):
-    return render(request,'mainapp/super-gestionar.html')
+    return render(request,'mainapp/super-gestionar.html', {
+        'form': CreatePersonalForm
+        })
 
 def ficha(request):
     if request.method == 'GET':
@@ -57,6 +59,7 @@ def actualizarf(request):
     return render(request, 'mainapp/super-actualizar.html', {
         'fichas': fichas,
         'busqueda': busqueda
+
     })
 
 
@@ -67,11 +70,25 @@ def listar_personal(request):
 
     if busqueda:
         usuarios = usuarios.filter(
-            Q(username__icontains=busqueda) |  # Filtrar solo si hay valor en busqueda
+            Q(first_name__icontains=busqueda) |  # Filtrar solo si hay valor en busqueda
             Q(documento__icontains=busqueda)
         ).distinct()
-    return render(request, 'mainapp/super-gestionar.html', {'usuarios': usuarios, 'busqueda': busqueda})
+        
+    return render(request, 'mainapp/super-gestionar.html', {'usuarios': usuarios, 'busqueda': busqueda, 'form':CreatePersonalForm})
 
+def personal(request):
+    # Si el formulario se envía (POST)
+    if request.method == 'POST':
+        form = CreatePersonalForm(request.POST)
+        if form.is_valid():
+            form.save()  # Guarda el nuevo usuario o la ficha
+            return redirect('personal')  # Redirige a la misma página después de guardar
+    else:
+        form = CreatePersonalForm()  # Si la petición es GET, solo cargamos el formulario vacío
+
+    return render(request, 'mainapp/super-gestionar.html', {
+        'form': form  # Enviamos el formulario a la plantilla
+    })
 
 def signout(request):
     logout(request)

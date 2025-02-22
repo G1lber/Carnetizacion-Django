@@ -271,7 +271,7 @@ body {
   background-color: var(--color-secundario);
 }
 /* Estilo para los botones de Editar y Eliminar */
-.btn-edit, .btn-delete {
+.btn-edit, .btn-delete, .createButton {
   padding: 8px 16px;
   border: none;
   border-radius: 4px;
@@ -293,6 +293,10 @@ body {
   background-color: var(--color-primary);
   color: white;
 }
+.createButton{
+  background-color: var(--color-secundario);
+  color: white;
+}
 
 .btn-delete:hover {
   background-color: var(--color-primary);
@@ -304,7 +308,6 @@ body {
   margin: 20px 0;
   color: var(--color-text);
 }
-/* Modal */
 /* Estilos para el botón */
 .green-button {
   background-color: #4CAF50;
@@ -334,7 +337,7 @@ body {
 
 /* Cuando el modal tiene la clase .show */
 .modal.show {
-  display: flex;
+  display: block;
   align-items: center;
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.5);

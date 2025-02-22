@@ -16,14 +16,12 @@
         <div class="search-container">
             <input type="text" class="search-input" placeholder="Buscar por nombre..." name="buscar" id="buscar" value="{{ busqueda }}">
             <button id="search-btn" class="btn-search" type="submit">Buscar</button>
-            <button id="create-btn" class="btn-search" type="submit">Crear</button>
         </div>
     </form>
-
+    <button class="green-button" id="createPersonal" action= "{% url 'crearusu'%}">Crear</button>
     {% if busqueda %}
 
     <table class="table">
-    <h2 class="table-title">Editar Personal</h2>
     <thead>
         <tr>
             <th>Nombre</th>
@@ -36,10 +34,10 @@
     <tbody>
         {% for usuario in usuarios %}
             <tr>
-                <td>{{ usuario.username }}</td>
+                <td>{{ usuario.first_name }}</td>
                 <td>{{ usuario.is_staff }}</td>
                 <td>{{ usuario.documento }}</td>
-                <td><button class="btn-edit">Editar</button></td>
+                <td><button class="btn-edit" id="editarPersonal">Editar</button></td>
                 <td><button class="btn-delete">Eliminar</button></td>
             </tr>
         {% empty %}
@@ -50,4 +48,17 @@
     </tbody>
     </table>
     {% endif%}
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeButton">&times;</span>
+            <h2>Crear Usuario</h2>
+                <form method="POST" action= "{% url 'crearusu'%}">
+                    {% csrf_token %}
+                    {{ form }}
+                    <button type="submit" class="submit-button">Guardar</button>
+                </form>
+            </div>
+        </div>
+    
+    <script src="{% static "js/script.js" %}"></script>    
 {% endblock content %}
