@@ -25,6 +25,7 @@ class UsuarioPersonalizado(AbstractUser):
     rol_FK = models.ForeignKey('Rol', on_delete=models.SET_NULL, null=True, blank=True)
     rh_FK = models.ForeignKey('Rh', on_delete=models.SET_NULL, null=True, blank=True)
     tipo_doc_FK = models.ForeignKey('Tipo_doc', on_delete=models.SET_NULL, null=True, blank=True)
+    is_active= models.IntegerField()
 
     groups = models.ManyToManyField(Group, related_name="custom_user_groups", blank=True)
     user_permissions = models.ManyToManyField(Permission, related_name="custom_user_permissions", blank=True)
@@ -37,7 +38,6 @@ class Ficha(models.Model):
     fecha_inicio = models.DateField(blank=True, null=True)
     fecha_fin = models.DateField(blank=True, null=True )
     documento_user = models.ForeignKey('UsuarioPersonalizado', on_delete=models.SET_NULL, null=True, blank=True)
-    archivo_excel = models.FileField(upload_to='archivos_fichas/', null=True, blank=True, verbose_name="Archivo Excel")
     
 
 class FichaXaprendiz(models.Model):

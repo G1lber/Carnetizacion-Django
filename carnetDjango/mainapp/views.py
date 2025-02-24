@@ -1,11 +1,10 @@
+import pandas as pd
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth import authenticate, login, logout
 from .forms import CreateFichaForms,CreatePersonalForm
-from .models import Ficha, UsuarioPersonalizado
+from .models import Ficha, UsuarioPersonalizado, Tipo_doc
 from django.db.models import Q
-
-
 
 
 
@@ -36,79 +35,88 @@ def gestionar(request):
         'form': CreatePersonalForm
         })
 
+
 def ficha(request):
     if request.method == 'GET':
-        return render(request,'mainapp/super-ficha.html',{
+        return render(request, 'mainapp/super-ficha.html', {
             'form': CreateFichaForms
         })
     else:
-        form =CreateFichaForms(request.POST)
-        nueva_ficha= form.save(commit=False)
-        nueva_ficha.save()
-        archivo_excel= request.FILES.getlist('archivo_excel')
+        form = CreateFichaForms(request.POST)
+        if form.is_valid():
+            nueva_ficha = form.save(commit=False)
+            nueva_ficha.save()
 
-        if not archivo_excel:
-            return redirect('templates/super-ficha.html')
-        
-        for archivo in archivo_excel:
-                    nueva_ficha = Ficha(
-                        num_ficha=int( num_ficha),
-                        fecha_inicio=fecha_inicio,
-                        fecha_fin=fecha_fin,
-                        archivo_excel=archivo,
-                    )
-                    nueva_ficha.save()
-
-                    procesar_excel(nueva_ficha)
-
-        except Exception as e:
-            print(f"Error: {e}")  # Para depuración
-
-        return redirect('actualizarf')
-
-def procesar_excel(ficha):
-    try:
-        df = pd.read_excel(ficha.archivo_excel.path, engine="openpyxl", skiprows=5)
-        print(df.head())  # Muestra las primeras filas para revisar si están correctas
-
-        if df.empty:
-            return
-
-        df = pd.read_excel(ficha.archivo_excel.path, engine="openpyxl", skiprows=5, usecols="A,B,C,D,G")
-        df.columns = ["documento_user", "nombre_usuario", "apellido_usuario", "estado"]
-
-
-        for _, row in df.iterrows():
-            if pd.notna(row["documento_user"]):
-                print(f"Procesando usuario: {row['documento_user']} - {row['nombre_usuario']} {row['apellido_usuario']}")
-
+            # Procesar el archivo Excel
+            archivo_excel = request.FILES.get('archivo_excel')
+            if not archivo_excel:
+                return render(request, 'mainapp/super-ficha.html', {
+                    'form': form,
+                    'error': "No se cargó el archivo Excel."
+                })
+            else:
                 try:
-                    tipo_doc, _ = TipoDoc.objects.get_or_create(nombre_tipoD=row["tipo_doc_FK"])
-                    estado, _ = Estado.objects.get_or_create(nombre_estado=row["estado"])
+                    # Leer el archivo Excel, omitiendo las primeras 10 filas
+                    df = pd.read_excel(archivo_excel, skiprows=9)
 
-                    usuario, created = UsuarioPersonalizado.objects.update_or_create(
-                        documento=row["documento"],
-                        defaults={
-                            "first_name": row["nombre_usuario"],
-                            "last_name": row["apellido_usuario"],
-                            "tipo_doc_FK": tipo_doc,
-                            # "id_ficha_FK": ficha,
-                            # "id_programa_FK": ficha.programa
-                            # "id_estado_FK": estado,
-                        },
-                    )
-                except Exception:
-                    pass
-    except Exception:
-        pass
+                    # Verificar que el archivo tenga las columnas esperadas
+                    expected_columns = ['Tipo de Documento', 'Número de Documento', 'Nombre', 'Apellidos', 'Estado']
+                    if not all(col in df.columns for col in expected_columns):
+                        return render(request, 'mainapp/super-ficha.html', {
+                            'form': form,
+                            'error': "El archivo Excel no tiene las columnas esperadas."
+                        })
+
+                    # Iterar sobre las filas del DataFrame
+                    for index, row in df.iterrows():
+                        # Obtener la instancia de Tipo_doc
+                        try:
+                            tipo_doc_instance = Tipo_doc.objects.get(nombre_doc=row['Tipo de Documento'])  # Asegúrate de que 'id' sea el campo correcto
+                            if row['Estado'] != "EN FORMACION":
+                                is_active = 0
+                            else:
+                                is_active= 1
+                            # Crear o actualizar el usuario
+                            user, creado = UsuarioPersonalizado.objects.update_or_create(
+                                documento=row['Número de Documento'],
+                                defaults={
+                                    'tipo_doc_FK': tipo_doc_instance,
+                                    'username':row['Número de Documento'],
+                                    'documento': row['Número de Documento'],
+                                    'first_name': row['Nombre'],
+                                    'last_name': row['Apellidos'],
+                                    'is_active': is_active
+                                }
+                            )
+
+                        except Tipo_doc.DoesNotExist:
+                            return render(request, 'mainapp/super-ficha.html', {
+                                'form': form,
+                                'error': f"No se encontró el Tipo_doc con ID {row['tipo_doc_FK']}."
+                            })
+
+                    # Redirigir una vez que todo se haya procesado
+                    return redirect('personal')
+
+                except Exception as e:
+                    return render(request, 'mainapp/super-ficha.html', {
+                        'form': form,
+                        'error': f"Error al leer el archivo Excel: {str(e)}"
+                    })
+        else:
+            print(form.errors)
+            return render(request, 'mainapp/super-ficha.html', {
+                'form': form,
+                'error': form.errors
+            })
+
+
 
 def actualizarf(request):
     fichas= Ficha.objects.all()
     return render(request,'mainapp/super-actualizar.html',{
         'fichas':fichas
     })
-
-
 
 
 
