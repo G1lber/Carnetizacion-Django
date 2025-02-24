@@ -8,4 +8,6 @@ admin.site.register(Rol)
 
 admin.site.register(UsuarioPersonalizado)
 
+
+
     
