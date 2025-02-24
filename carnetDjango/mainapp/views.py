@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth import authenticate, login, logout
 from .forms import CreateFichaForms,CreatePersonalForm
-from .models import Ficha, UsuarioPersonalizado, Tipo_doc
+from .models import Ficha, UsuarioPersonalizado, Tipo_doc, FichaXaprendiz
 from django.db.models import Q
 
 
@@ -46,6 +46,7 @@ def ficha(request):
         if form.is_valid():
             nueva_ficha = form.save(commit=False)
             nueva_ficha.save()
+            ficha_instance = Ficha.objects.get(num_ficha=nueva_ficha.num_ficha)
 
             # Procesar el archivo Excel
             archivo_excel = request.FILES.get('archivo_excel')
@@ -88,7 +89,13 @@ def ficha(request):
                                     'is_active': is_active
                                 }
                             )
-
+                            user= UsuarioPersonalizado.objects.get(documento=row['Número de Documento'])
+                            FichaXaprendiz.objects.create(
+                                num_ficha_fk=ficha_instance,
+                                documento_fk=user
+                            )
+                         
+            
                         except Tipo_doc.DoesNotExist:
                             return render(request, 'mainapp/super-ficha.html', {
                                 'form': form,
