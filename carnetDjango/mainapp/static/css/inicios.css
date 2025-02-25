@@ -308,6 +308,12 @@ body {
   margin: 20px 0;
   color: var(--color-text);
 }
+#admin-fields, 
+#user-fields,
+#admin-extra1,
+#admin-extra2 {
+  display: none;
+}
 /* Estilos para el botón */
 .green-button {
   background-color: #4CAF50;
