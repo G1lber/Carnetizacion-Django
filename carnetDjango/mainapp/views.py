@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth import authenticate, login, logout
 from .forms import CreateFichaForms,CreatePersonalForm
-from .models import Ficha, UsuarioPersonalizado, Tipo_doc, FichaXaprendiz
+from .models import Ficha, UsuarioPersonalizado, Tipo_doc, FichaXaprendiz, Rol
 from django.db.models import Q
 from django.http import JsonResponse
 
@@ -150,16 +150,54 @@ def listar_personal(request):
 def personal(request):
     if request.method == 'POST':
         form = CreatePersonalForm(request.POST)
+        print('llego el form')
         if form.is_valid():
             usuario = form.save(commit=False)  # No guarda aún en la base de datos
             usuario.is_active = True  # Activa el usuario por defecto
-            usuario.save()  # Guarda en la base de datos
-            return redirect('personal')
+            print('hola')   
+            rol = Rol.objects.get(nombre_rol=usuario.rol_FK) # Asumiendo que tienes un campo 'role'
+            # Aquí puedes hacer lo que necesites dependiendo del rol
+            if rol.nombre_rol == 'Funcionario':  # Si el rol es admin
+                usuario.save() 
+            elif rol.nombre_rol == 'Instructor':  # Si el rol es manager
+                usuario.username = usuario.documento # Un campo que tengas para manager
+                usuario.password = usuario.documento # Un campo que tengas para manager
+                usuario.save()  
+
+                num_ficha = form.cleaned_data.get('ficha')  # Suponiendo que 'ficha_num' es el campo enviado
+                print(num_ficha)
+                if num_ficha:
+                    try:
+                        # Verificar si existe una ficha con el num_ficha proporcionado
+                        # ficha = Ficha.objects.get(num_ficha=num_ficha)  # Intentamos obtener la ficha por su número
+                        # usuario.documento_user = usuario.documento  # Asignamos el usuario al campo documento_user
+                        ficha=Ficha.objects.filter(num_ficha=num_ficha).update(documento_user=usuario.documento)
+                        print(ficha)
+                        
+                        print('hola33333')
+                    except Ficha.DoesNotExist:
+                        print(f"No se encontró una ficha con el número {num_ficha}")
+                        # Puedes manejar el error aquí (mostrar un mensaje o redirigir a una página de error)
+
+                return redirect('personal')  # Redirigimos a la página correspondiente
+
+            elif rol.nombre_rol == 'Aprendiz':  # Si el rol es manager
+                usuario.username = usuario.documento # Un campo que tengas para manager
+                usuario.save()
+                return redirect('personal')
+            else:
+                usuario.is_active = True  
+                return redirect('personal')
+        else:
+            form = CreatePersonalForm(request.POST)
+            print(form.errors)
+
     else:
         form = CreatePersonalForm()
-
+    print('holass')
+    print(form.errors)
     return render(request, 'mainapp/super-gestionar.html', {
-        'form': form
+        'form': form  
     })
 def signout(request):
     logout(request)

@@ -47,6 +47,7 @@
         {% endfor %}
     </tbody>
     </table>
+    {{error}}
     {% endif%}
     <div id="modal" class="modal">
         <div class="modal-content">
@@ -98,13 +99,13 @@
 
                     <div class="mb-3" id="ficha" style="display: none;">
                         <label for="ficha">Ficha</label>
-                        <input type="text" id="ficha" class="form-control" name="ficha" id='ficha' placeholder='Numero de Ficha'>
+                        <input type="text" id="ficha" class="form-control" name="ficha" placeholder='Numero de Ficha'>
                     </div>
                 
                     <button type="submit" class="submit-button">Guardar</button>
                 </form>
-            </div>
         </div>
+    </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{% static "js/script.js" %}"></script>    
     <script src="{% static "js/scriptJquery.js" %}"></script>    

@@ -20,7 +20,7 @@ $(document).ready(function () {
             $("#email").show();
         } else if (!roles_con_credenciales.includes(selectedRole)) { 
             $("#email").hide();
-            $("#id_email").val('');
+            $("#email").val('');
         }
 
         // Manejo del campo ficha para roles "2" y "3"
@@ -28,7 +28,7 @@ $(document).ready(function () {
             $("#ficha").show();
         } else {
             $("#ficha").hide();
-            $("#id_ficha").val('');
+            $("#ficha").val('');
         }
     }
 
