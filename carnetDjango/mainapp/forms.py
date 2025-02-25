@@ -26,6 +26,12 @@ class CreatePersonalForm(ModelForm):
     password=forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Contraseña'}),
         required=False)
+    ficha_field = forms.CharField(
+        required=False,
+        label="Ficha",
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Número de Ficha'})
+    )
+    
     class Meta:
         model= UsuarioPersonalizado
         fields = ['first_name','last_name','documento','tipo_doc_FK','rol_FK','username','email','password']

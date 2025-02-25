@@ -164,8 +164,9 @@ def personal(request):
                 usuario.password = usuario.documento # Un campo que tengas para manager
                 usuario.save()  
 
-                num_ficha = form.cleaned_data.get('ficha')  # Suponiendo que 'ficha_num' es el campo enviado
-                print(num_ficha)
+                num_ficha = form.cleaned_data.get('ficha_field')  
+                print(f"Ficha recibida del formulario: {num_ficha}")
+
                 if num_ficha:
                     try:
                         # Verificar si existe una ficha con el num_ficha proporcionado
@@ -184,7 +185,19 @@ def personal(request):
             elif rol.nombre_rol == 'Aprendiz':  # Si el rol es manager
                 usuario.username = usuario.documento # Un campo que tengas para manager
                 usuario.save()
-                return redirect('personal')
+
+                num_ficha = form.cleaned_data.get('ficha_field') 
+                if num_ficha:
+                    try:
+                        ficha_instance = Ficha.objects.get(num_ficha=num_ficha)
+                        usuario_instance = UsuarioPersonalizado.objects.get(documento=usuario.documento)
+                        fichaxA=FichaXaprendiz.objects.create(documento_fk=usuario_instance,num_ficha_fk=ficha_instance)
+                        print(fichaxA)
+                    except Ficha.DoesNotExist:
+                        print(f"No se encontró una ficha con el número {num_ficha}")
+                        # Puedes manejar el error aquí (mostrar un mensaje o redirigir a una página de error)
+
+                return redirect('personal')  # Redirigimos a la página correspondiente
             else:
                 usuario.is_active = True  
                 return redirect('personal')
@@ -199,6 +212,7 @@ def personal(request):
     return render(request, 'mainapp/super-gestionar.html', {
         'form': form  
     })
+
 def signout(request):
     logout(request)
     return redirect('/loginadmin/')
