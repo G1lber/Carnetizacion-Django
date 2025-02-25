@@ -148,19 +148,19 @@ def listar_personal(request):
     return render(request, 'mainapp/super-gestionar.html', {'usuarios': usuarios, 'busqueda': busqueda, 'form':CreatePersonalForm})
 
 def personal(request):
-    # Si el formulario se envía (POST)
     if request.method == 'POST':
         form = CreatePersonalForm(request.POST)
         if form.is_valid():
-            form.save()  # Guarda el nuevo usuario o la ficha
-            return redirect('personal')  # Redirige a la misma página después de guardar
+            usuario = form.save(commit=False)  # No guarda aún en la base de datos
+            usuario.is_active = True  # Activa el usuario por defecto
+            usuario.save()  # Guarda en la base de datos
+            return redirect('personal')
     else:
-        form = CreatePersonalForm()  # Si la petición es GET, solo cargamos el formulario vacío
+        form = CreatePersonalForm()
 
     return render(request, 'mainapp/super-gestionar.html', {
-        'form': form  # Enviamos el formulario a la plantilla
+        'form': form
     })
-
 def signout(request):
     logout(request)
     return redirect('/loginadmin/')

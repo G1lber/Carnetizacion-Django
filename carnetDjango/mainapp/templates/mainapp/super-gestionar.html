@@ -54,11 +54,58 @@
             <h2>Crear Usuario</h2>
                 <form method="POST" action= "{% url 'crearusu'%}">
                     {% csrf_token %}
-                    {{ form }}
+    
+                    <div class="mb-3">
+                        {{ form.first_name.label_tag }}
+                        {{ form.first_name }}
+                    </div>
+                
+                    <div class="mb-3">
+                        {{ form.last_name.label_tag }}
+                        {{ form.last_name }}
+                    </div>
+                
+                    <div class="mb-3">
+                        {{ form.documento.label_tag }}
+                        {{ form.documento }}
+                    </div>
+                
+                    <div class="mb-3">
+                        {{ form.tipo_doc_FK.label_tag }}
+                        {{ form.tipo_doc_FK }}
+                    </div>
+                
+                    <div class="mb-3">
+                        {{ form.rol_FK.label_tag }}
+                        {{ form.rol_FK }}
+                    </div>
+                
+                    <!-- Campos ocultos inicialmente -->
+                    <div class="mb-3" id="username_field" style="display: none;">
+                        {{ form.username.label_tag }}
+                        {{ form.username }}
+                    </div>
+                
+                    <div class="mb-3" id="password_field" style="display: none;">
+                        {{ form.password.label_tag }}
+                        {{ form.password }}
+                    </div>
+                
+                    <div class="mb-3" id="email" style="display: none;">
+                        {{ form.email.label_tag }}
+                        {{ form.email }}
+                    </div>
+
+                    <div class="mb-3" id="ficha" style="display: none;">
+                        <label for="ficha">Ficha</label>
+                        <input type="text" id="ficha" class="form-control" name="ficha" id='ficha' placeholder='Numero de Ficha'>
+                    </div>
+                
                     <button type="submit" class="submit-button">Guardar</button>
                 </form>
             </div>
         </div>
-    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{% static "js/script.js" %}"></script>    
+    <script src="{% static "js/scriptJquery.js" %}"></script>    
 {% endblock content %}
