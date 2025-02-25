@@ -52,13 +52,80 @@
         <div class="modal-content">
             <span class="close-button" id="closeButton">&times;</span>
             <h2>Crear Usuario</h2>
-                <form method="POST" action= "{% url 'crearusu'%}">
-                    {% csrf_token %}
-                    {{ form }}
-                    <button type="submit" class="submit-button">Guardar</button>
-                </form>
-            </div>
-        </div>
+            <form method="POST" action="{% url 'crearusu' %}">
+                {% csrf_token %}
     
-    <script src="{% static "js/script.js" %}"></script>    
+                <!-- Nombre -->
+                {{ form.first_name }}
+    
+                <!-- Apellidos -->
+                {{ form.last_name }}
+    
+                <!-- Documento -->
+                {{ form.documento }}
+    
+                <!-- Tipo de Documento -->
+                <label for="tipo_doc_FK">Tipo de Documento:</label>
+                {{ form.tipo_doc_FK }}
+    
+                <!-- Selección de Rol -->
+                <label for="id_rol_FK">Rol:</label>
+                {{ form.rol_FK }}
+
+                <!-- Campos adicionales ocultos por defecto -->
+                <div id="admin-fields" class="hidden">
+                    {{ form.username }}
+                    {{ form.email }}
+                    {{ form.password }}
+                </div>
+
+                <div id="user-fields" class="hidden">
+                    <label for="user-data">Datos Usuario:</label>
+                    <input type="text" id="user-data" name="user_data">
+                </div>
+
+                <!-- Estado -->
+                {{ form.is_active }}
+    
+                <button type="submit" class="submit-button">Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- jQuery (Asegúrate de incluirlo antes de tu script) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            console.log("Script cargado correctamente");
+    
+            // Ocultar todos los campos al cargar la página
+            $("#admin-fields, #user-fields").hide();
+    
+            $("#id_rol_FK").change(function() {
+                var selectedRole = $("#id_rol_FK option:selected").text().trim().toLowerCase();
+                console.log("Rol seleccionado:", selectedRole);
+    
+                // Ocultar todos los campos primero y limpiar sus valores
+                $("#admin-fields, #user-fields").hide();
+                $("#admin-fields, #user-fields").find("input").val("");
+    
+                // Mostrar campos adicionales para Administrador e Instructor
+                if (selectedRole === "administrador" || selectedRole === "instructor") {
+                    console.log("Mostrando campos de administrador");
+                    $("#admin-fields").show();
+                } 
+                else if (selectedRole === "aprendiz") {
+                    console.log("Mostrando campos de usuario");
+                    $("#user-fields").show();
+                }
+            });
+        });
+    </script>
+    
+            
+    <script src="{% static "js/script.js" %}"></script> 
+</body>
+</html>
+     
 {% endblock content %}
