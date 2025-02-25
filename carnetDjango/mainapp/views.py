@@ -26,7 +26,8 @@ def loginAdmin(request):
             login(request, user)
             return redirect('inicio')
     
-           
+def carnet(request):
+    return render(request,'mainapp/usu-carnet.html')           
 
 def inicio(request):
     return render(request,'mainapp/super-inicio.html')
