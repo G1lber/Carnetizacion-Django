@@ -372,7 +372,8 @@ body {
 }
 
 /* Botón de cerrar dentro del modal */
-.close-button {
+.close-button,
+.close {
   position: absolute;
   top: 10px;
   right: 10px;
