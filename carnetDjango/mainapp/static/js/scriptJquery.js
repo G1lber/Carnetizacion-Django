@@ -3,9 +3,9 @@ $(document).ready(function () {
         let selectedRole = $("#id_rol_FK").val(); // Obtiene el valor del rol seleccionado
 
         // Definir qué roles requieren qué campos
-        let roles_con_credenciales = ["4"]; // Requiere username, password y email
-        let roles_con_email = ["3"]; // Requiere email
-        let roles_con_ficha = ["2", "3"]; // Requiere ficha
+        let roles_con_credenciales = ["3"]; // Requiere username, password y email
+        let roles_con_email = ["2"]; // Requiere email
+        let roles_con_ficha = ["1", "2"]; // Requiere ficha
 
         // Ocultar todos los campos y limpiar sus valores
         $("#id_username, #id_password, #id_email, #id_ficha").val('').prop("disabled", true);
