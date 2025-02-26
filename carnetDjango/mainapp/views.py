@@ -10,7 +10,20 @@ from django.http import JsonResponse
 
 # Create your views here.
 def index(request):
-    return render(request,'mainapp/index.html')
+    if request.method == "POST":
+        documento = request.POST.get("documento")  # Obtener el número de documento
+
+        try:
+            usuario = UsuarioPersonalizado.objects.get(documento=documento)
+            if usuario.rh_FK is not None and usuario.foto:
+                request.session["documento"] = documento
+                return redirect("carnet")  # Redirigir si cumple las condiciones
+            else:
+                return render(request, "mainapp/index.html", {"error": "El usuario no tiene RH y Foto asignados"})
+        except UsuarioPersonalizado.DoesNotExist:
+            return render(request, "mainapp/index.html", {"error": "Usuario no encontrado"})
+
+    return render(request, "mainapp/index.html")
 
 def loginAdmin(request):
     if request.method == 'GET':
@@ -245,26 +258,25 @@ def editarficha(request):
 
     return redirect('actualizarf')  # Si no es POST, redirigir
 
-def obtener_datos_usuario_y_ficha(request, documento):
-    # Obtener el usuario por su documento
+def obtener_datos_usuario_y_ficha(request):
+    documento = request.session.get("documento")  # 🔹 Obtener documento desde la sesión
+
+    if not documento:
+        return redirect("index")  # Si no hay documento en sesión, redirigir al inicio
+
     usuario = get_object_or_404(UsuarioPersonalizado, documento=documento)
-    
-    # Obtener la ficha asociada al usuario
     ficha_x_aprendiz = FichaXaprendiz.objects.filter(documento_fk=usuario).first()
-    
-    # Obtener la fecha de vencimiento (fecha_fin) si existe una ficha asociada
     fecha_vencimiento = ficha_x_aprendiz.num_ficha_fk.fecha_fin if ficha_x_aprendiz and ficha_x_aprendiz.num_ficha_fk else None
 
-    # Preparar los datos para el template
     datos_usuario = {
         'first_name': usuario.first_name,
         'last_name': usuario.last_name,
         'documento': usuario.documento,
-        'rh_FK': usuario.rh_FK,
-        'tipo_doc_FK': usuario.tipo_doc_FK,
-        'rol_FK': usuario.rol_FK,
-        'num_ficha_fk': ficha_x_aprendiz.num_ficha_fk.num_ficha if ficha_x_aprendiz and ficha_x_aprendiz.num_ficha_fk else None,  # Número de ficha
-        'fecha_vencimiento': fecha_vencimiento  # Fecha de vencimiento
+        'rh_FK': usuario.rh_FK.nombre_tipo if usuario.rh_FK else None,
+        'tipo_doc_FK': usuario.tipo_doc_FK.nombre_doc if usuario.tipo_doc_FK else None,
+        'rol_FK': usuario.rol_FK.nombre_rol if usuario.rol_FK else None,
+        'num_ficha_fk': ficha_x_aprendiz.num_ficha_fk.num_ficha if ficha_x_aprendiz and ficha_x_aprendiz.num_ficha_fk else None,
+        'fecha_vencimiento': fecha_vencimiento
     }
-    # Renderizar el template con los datos
-    return render(request, 'mainapp/usu-carnet.html', {'datos': datos_usuario})
+
+    return render(request, "mainapp/usu-carnet.html", {'datos': datos_usuario})

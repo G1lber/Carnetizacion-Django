@@ -13,7 +13,7 @@ urlpatterns = [
     path('crearusu/', views.personal, name='crearusu'),
     path('logout/', views.signout, name='logout'),
     path('obtener-ficha/<int:ficha_id>/', views.obtener_ficha, name='obtener_ficha'),
-    path('carnet/<str:documento>/', views.obtener_datos_usuario_y_ficha, name='carnet'),
+    path('carnet/', views.obtener_datos_usuario_y_ficha, name='carnet'),
 
     
 ]
