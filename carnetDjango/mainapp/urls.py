@@ -15,6 +15,7 @@ urlpatterns = [
     path('ediaraprendiz/', views.editarAprendiz, name='editarAprendiz'),
     path('crearusu/', views.personal, name='crearusu'),
     path('logout/', views.signout, name='logout'),
+    path('logoutAprendiz/', views.signoutAprendiz, name='logoutAprendiz'),
     path('obtener-ficha/<int:ficha_id>/', views.obtener_ficha, name='obtener_ficha'),
     path('actualizar-usuario/', views.actualizar_usuario, name='actualizar_usuario'),
     path('eliminar_usuario/', views.eliminar_usuario, name='eliminar_usuario'),

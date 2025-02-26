@@ -21,7 +21,7 @@ def index(request):
                 request.session["documento"] = documento
                 return redirect("carnet")  # Redirigir si cumple las condiciones
             else:
-                return render(request, "mainapp/index.html", {"error": "El usuario no tiene RH y Foto asignados"})
+                return render(request, "mainapp/index.html", {"error": "El usuario no tiene RH o Foto asignados"})
         except UsuarioPersonalizado.DoesNotExist:
             return render(request, "mainapp/index.html", {"error": "Usuario no encontrado"})
 
@@ -69,7 +69,7 @@ def ficha(request):
             # Procesar el archivo Excel
             archivo_excel = request.FILES.get('archivo_excel')
             if not archivo_excel:
-                return render(request, 'mainapp/super-ficha.html', {
+                return render(request,'mainapp/super-ficha.html', {
                     'form': form,
                     'error': "No se cargó el archivo Excel."
                 })
@@ -85,7 +85,7 @@ def ficha(request):
                             'form': form,
                             'error': "El archivo Excel no tiene las columnas esperadas."
                         })
-
+                    rol_instance = Rol.objects.get(id=1) 
                     # Iterar sobre las filas del DataFrame
                     for index, row in df.iterrows():
                         # Obtener la instancia de Tipo_doc
@@ -104,6 +104,7 @@ def ficha(request):
                                     'documento': row['Número de Documento'],
                                     'first_name': row['Nombre'],
                                     'last_name': row['Apellidos'],
+                                    'rol_FK': rol_instance,
                                     'is_active': is_active
                                 }
                             )
@@ -271,6 +272,10 @@ def personal(request):
 def signout(request):
     logout(request)
     return redirect('/loginadmin/')
+
+def signoutAprendiz(request):
+    logout(request)
+    return redirect('index')
 
 def obtener_ficha(request, ficha_id):
     try:
