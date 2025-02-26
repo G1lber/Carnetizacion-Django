@@ -14,6 +14,8 @@ urlpatterns = [
     path('logout/', views.signout, name='logout'),
     path('obtener-ficha/<int:ficha_id>/', views.obtener_ficha, name='obtener_ficha'),
     path('carnet/<str:documento>/', views.obtener_datos_usuario_y_ficha, name='carnet'),
+    path('actualizar-usuario/', views.actualizar_usuario, name='actualizar_usuario'),
+    path('eliminar_usuario/', views.eliminar_usuario, name='eliminar_usuario'),
 
     
 ]

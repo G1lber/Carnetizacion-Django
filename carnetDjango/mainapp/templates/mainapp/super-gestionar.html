@@ -8,6 +8,7 @@
     <link rel="stylesheet" href= {% static "css/reset.css" %}>
     <link rel="stylesheet" href= {% static "css/inicios.css" %}>
     <link rel="stylesheet" href= {% static "css/responsive.css" %}>
+    <meta name="csrf-token" content="{{ csrf_token }}">
     <title>Fichas</title>
 {% endblock contenthead %}
 
@@ -33,12 +34,12 @@
     </thead>
     <tbody>
         {% for usuario in usuarios %}
-            <tr>
+            <tr id="usuario-{{ usuario.documento }}">
                 <td>{{ usuario.first_name }}</td>
                 <td>{{ usuario.last_name }}</td>
                 <td>{{ usuario.documento }}</td>
                 <td><button class="btn-edit" id="editarPersonal">Editar</button></td>
-                <td><button class="btn-delete">Eliminar</button></td>
+                <td><button class="btn-delete" data-documento="{{ usuario.documento }}"  data-url="{% url 'eliminar_usuario' %}">Eliminar</button></td>
             </tr>
         {% empty %}
             <tr>
@@ -106,7 +107,25 @@
             </form>
         </div>
     </div>
+    <!-- Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form id="editForm">
+                {% csrf_token %}
+                <input type="hidden" id="editDocumento" name="documento">
+                <label for="editFirstName">Nombre:</label>
+                <input type="text" id="editFirstName" name="first_name">
+                <label for="editLastName">Apellido:</label>
+                <input type="text" id="editLastName" name="last_name">
+                <button type="submit">Guardar</button>
+            </form>
+        </div>
+    </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{% static "js/script.js" %}"></script>    
-    <script src="{% static "js/scriptJquery.js" %}"></script>    
+    <script src="{% static "js/scriptJquery.js" %}"></script> 
+    <script src="{% static "js/manejomodal.js" %}"></script> 
+    <script src="{% static "js/eliminar.js" %}"></script> 
+    
 {% endblock content %}

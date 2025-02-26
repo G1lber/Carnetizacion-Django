@@ -1,11 +1,13 @@
 import pandas as pd
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth import authenticate, login, logout
 from .forms import CreateFichaForms,CreatePersonalForm
 from .models import Ficha, UsuarioPersonalizado, Tipo_doc, FichaXaprendiz, Rol
 from django.db.models import Q
 from django.http import JsonResponse
+import json
 
 
 # Create your views here.
@@ -268,3 +270,30 @@ def obtener_datos_usuario_y_ficha(request, documento):
     }
     # Renderizar el template con los datos
     return render(request, 'mainapp/usu-carnet.html', {'datos': datos_usuario})
+
+def actualizar_usuario(request):
+    if request.method == 'POST':
+        documento = request.POST.get('documento')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+
+        try:
+            usuario = UsuarioPersonalizado.objects.get(documento=documento)
+            usuario.first_name = first_name
+            usuario.last_name = last_name
+            usuario.save()
+            return JsonResponse({'success': True})
+        except UsuarioPersonalizado.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Usuario no encontrado'})
+    return JsonResponse({'success': False, 'error': 'Método no permitido'})
+
+def eliminar_usuario(request):
+    if request.method == 'POST':
+        documento = request.POST.get('documento')
+        try:
+            usuario = UsuarioPersonalizado.objects.get(documento=documento)
+            usuario.delete()
+            return JsonResponse({'success': True})
+        except UsuarioPersonalizado.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Usuario no encontrado'})
+    return JsonResponse({'success': False, 'error': 'Método no permitido'})
