@@ -3,6 +3,7 @@ from .models import Ficha, UsuarioPersonalizado
 from django import forms
 
 class CreateFichaForms(ModelForm):
+    
     class Meta:
         model= Ficha
         fields = ['num_ficha','fecha_inicio','fecha_fin','documento_user','estado']
@@ -16,16 +17,30 @@ class CreateFichaForms(ModelForm):
         }
 
 class CreatePersonalForm(ModelForm):
+    username=forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Usuario'}),
+        required=False)
+    email=forms.CharField(
+        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Correo'}),
+        required=False)
+    password=forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Contraseña'}),
+        required=False)
+    ficha_field = forms.CharField(
+        required=False,
+        label="Ficha",
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Número de Ficha'})
+    )
+    
     class Meta:
         model= UsuarioPersonalizado
-        fields = ['first_name','last_name','documento','tipo_doc','rol','username','email','password']
+        fields = ['first_name','last_name','documento','tipo_doc_FK','rol_FK','username','email','password']
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Apellidos'}),
             'documento': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Número de Documento'}),
-            'tipo_doc': forms.Select(attrs={'class': 'form-control'}),
-            'rol': forms.Select(attrs={'class': 'form-control'}),
-            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Usuario'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Correo'}),
-            'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Contraseña'}),
+            'tipo_doc_FK': forms.Select(attrs={'class': 'form-control'}),
+            'rol_FK': forms.Select(attrs={'class': 'form-control'}),
+            # 'is_active': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Estado'}),
         }
+   

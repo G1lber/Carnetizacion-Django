@@ -39,13 +39,14 @@
             <button class="green-button" id="createButton">CREAR</button>
           </div>
         </div>
+        {{error}}
         <!-- Modal -->
         <div id="modal" class="modal">
             <div class="modal-content">
                 <span class="close-button" id="closeButton">&times;</span>
                 <h2>Crear Ficha</h2>
                 <!-- Formulario -->
-                <form action="" method="POST">
+                <form action="" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form }}
                     {% comment %} <button type="submit" class="submit-button">
@@ -55,17 +56,18 @@
                       <label for="numeroficha" class="form-label">Número de Ficha</label>
                       <input type="text" class="form-control" id="numeroficha" placeholder="Número Ficha" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
                   </div> {% endcomment %}
-                  <div class="mb-3">
-                      <label for="archivo" class="form-label">Cargar Aprendices</label>
-                      <input type="file" class="form-control" id="cargararchivo" placeholder="Cargar archivo">
-                  </div>
+  
                   {% comment %} <form method="post" enctype="multipart/form-data">
                       <div>
                           <label for="file">Cargar Fotos</label>
                           <input type="file" id="file" name="file" multiple />
                       </div>
-                  </form> {% endcomment %}
-      
+
+                  </form> 
+                  {% endcomment %}
+                  <div>
+                    <input type="file" id="archivo_excel" name="archivo_excel">
+                  </div>
                   <button type="submit" class="submit-button">Guardar</button>
               </form>
           </div>

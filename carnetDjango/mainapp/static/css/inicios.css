@@ -308,6 +308,12 @@ body {
   margin: 20px 0;
   color: var(--color-text);
 }
+#admin-fields, 
+#user-fields,
+#admin-extra1,
+#admin-extra2 {
+  display: none;
+}
 /* Estilos para el botón */
 .green-button {
   background-color: #4CAF50;
@@ -325,23 +331,21 @@ body {
 }
 
 .modal {
-  display: none; /* ✅ Mantener oculto inicialmente */
+  display: none;
   position: fixed;
   z-index: 1000;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
-/* Cuando el modal tiene la clase .show */
+/* 🔥 Asegurar que todos los modales se centren correctamente */
 .modal.show {
-  display: block;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.5);
-
+  display: flex !important; /* 🔹 Forzamos flex */
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .modal-content {
@@ -353,27 +357,21 @@ body {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.modal.show {
-  display: flex; /* ✅ Se activa correctamente */
-  align-items: center;
-  justify-content: center;
-}
-  
+/* ✅ Estilos para inputs dentro del modal */
 .modal-content input,
 .modal-content select,
 .modal-content textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
 }
 
-/* Botón de cerrar dentro del modal */
-.close-button,
-.close {
+/* ✅ Botón de cerrar */
+.close-button {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -397,7 +395,6 @@ body {
   background: rgba(0, 0, 0, 0.1);
   color: #000;
 }
-
 
 /* Estilos para el formulario */
 form {

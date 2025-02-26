@@ -22,9 +22,11 @@ class Rol(models.Model):
 class UsuarioPersonalizado(AbstractUser):
     documento = models.CharField(max_length=20, unique=True, blank=True, primary_key=True)
     # ficha = models.ForeignKey('Ficha', on_delete=models.SET_NULL, null=True, blank=True)
-    rol = models.ForeignKey('Rol', on_delete=models.SET_NULL, null=True, blank=True)
-    rh = models.ForeignKey('Rh', on_delete=models.SET_NULL, null=True, blank=True)
-    tipo_doc = models.ForeignKey('Tipo_doc', on_delete=models.SET_NULL, null=True, blank=True)
+    rol_FK = models.ForeignKey('Rol', on_delete=models.SET_NULL, null=True, blank=True)
+    rh_FK = models.ForeignKey('Rh', on_delete=models.SET_NULL, null=True, blank=True)
+    tipo_doc_FK = models.ForeignKey('Tipo_doc', on_delete=models.SET_NULL, null=True, blank=True)
+    is_active= models.IntegerField()
+    foto = models.ImageField(upload_to='usuarios_fotos/', null=True, blank=True)
 
     groups = models.ManyToManyField(Group, related_name="custom_user_groups", blank=True)
     user_permissions = models.ManyToManyField(Permission, related_name="custom_user_permissions", blank=True)
