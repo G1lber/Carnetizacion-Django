@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth import authenticate, login, logout
 from .forms import CreateFichaForms,CreatePersonalForm
-from .models import Ficha, UsuarioPersonalizado, Tipo_doc, FichaXaprendiz, Rol
+from .models import Ficha, UsuarioPersonalizado, Tipo_doc, FichaXaprendiz, Rol, Rh
 from django.db.models import Q
 from django.http import JsonResponse
 
@@ -47,6 +47,9 @@ def gestionar(request):
     return render(request,'mainapp/super-gestionar.html', {
         'form': CreatePersonalForm
         })
+
+def gestionarC(request):
+    return render(request,'mainapp/instru-gestionarA.html')
 
 
 def ficha(request):
@@ -160,6 +163,41 @@ def listar_personal(request):
         
     return render(request, 'mainapp/super-gestionar.html', {'usuarios': usuarios, 'busqueda': busqueda, 'form':CreatePersonalForm})
 
+def listar_aprendices(request):
+    busqueda = request.GET.get("buscar", "")
+    usuarios = UsuarioPersonalizado.objects.filter(rol_FK__nombre_rol="Aprendiz")  # Filtrar solo aprendices
+    rh_list = Rh.objects.all()  # Obtener todos los RH
+
+    if busqueda:
+        usuarios = usuarios.filter(
+            Q(first_name__icontains=busqueda) |
+            Q(documento__icontains=busqueda)
+        ).distinct()
+        
+    return render(request, 'mainapp/instru-gestionarA.html', {
+        'usuarios': usuarios,
+        'busqueda': busqueda,
+        'rh_list': rh_list  # Pasar la lista de RH al template
+    })
+
+def editarAprendiz(request):
+    if request.method == "POST":
+        documento = request.POST.get("documento")
+        rh_id = request.POST.get("rh")
+        foto = request.FILES.get("foto")  # Obtener la foto si se subió
+
+        usuario = get_object_or_404(UsuarioPersonalizado, documento=documento)
+        usuario.rh_FK = get_object_or_404(Rh, id=rh_id)
+
+        if foto:
+            usuario.foto = foto  # Guardar la foto
+            usuario.save()  # Guardar solo si la imagen cambia
+
+        usuario.save()
+
+        return JsonResponse({"success": True})
+
+    return JsonResponse({"success": False, "error": "Método no permitido"}, status=400)
 def personal(request):
     if request.method == 'POST':
         form = CreatePersonalForm(request.POST)
@@ -170,11 +208,13 @@ def personal(request):
             print('hola')   
             rol = Rol.objects.get(nombre_rol=usuario.rol_FK) # Asumiendo que tienes un campo 'role'
             # Aquí puedes hacer lo que necesites dependiendo del rol
-            if rol.nombre_rol == 'Funcionario':  # Si el rol es admin
+            if rol.nombre_rol == 'Funcionario':  # Si el rol es Funcionario
+                usuario.set_password(usuario.password)  # Encripta la contraseña antes de guardarla
                 usuario.save() 
             elif rol.nombre_rol == 'Instructor':  # Si el rol es manager
                 usuario.username = usuario.documento # Un campo que tengas para manager
-                usuario.password = usuario.documento # Un campo que tengas para manager
+                usuario.password = usuario.documento 
+                usuario.set_password(usuario.documento)
                 usuario.save()  
 
                 num_ficha = form.cleaned_data.get('ficha_field')  

@@ -9,9 +9,16 @@
         <nav class="nav">
           <ul class="nav__list">
             <li class="nav__item"><a href="{% url "inicio" %}" class="nav__link nav__link--active btn">Inicio</a></li>
-            <li class="nav__item"><a href="{% url "actualizarf" %}" class="nav__link btn">Actualizar</a></li>
-            <li class="nav__item"><a href="{% url "ficha" %}" class="nav__link btn">Fichas</a></li>
-            <li class="nav__item"><a href="{% url "gestionar" %}" class="nav__link btn">Gestionar Personal</a></li>
+            
+              {% if request.user.is_authenticated %}
+                {% if request.user.rol_FK.nombre_rol == "Funcionario" %}
+                  <li class="nav__item"><a href="{% url 'actualizarf' %}" class="nav__link btn">Actualizar</a></li>
+                  <li class="nav__item"><a href="{% url 'ficha' %}" class="nav__link btn">Fichas</a></li>
+                  <li class="nav__item"><a href="{% url 'gestionar' %}" class="nav__link btn">Gestionar Personal</a></li>
+                {% else %}
+                  <li class="nav__item"><a href="{% url 'gestionarCarnet' %}" class="nav__link btn">Gestionar Carnets de Aprendices</a></li>
+                {% endif %}
+              {% endif %}
           </ul>
           <button class="container__nav btn">
             {% comment %} <span class="nav__icon"><i class="fa-regular fa-user"></i></span> {% endcomment %}
