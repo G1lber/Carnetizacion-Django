@@ -43,10 +43,10 @@
     <div class="card">
       <section class="header__carnet">
          <div class="carnet__logo">
-            <img src="assets/img/logosena.png" alt="Logo SENA" class="logo">
+            <img src="{% static "imagenes/logosena.png" %} " alt="Logo SENA" class="logo">
           </div>
           <div class="carnet__photo">
-            <img src="assets/img/user2.jpg" alt="Foto"  class="photo">
+            <img src="{{ datos.foto.url }}" alt="Foto"  class="photo">
           </div>
       </section>
         <h2 class="role">{{ datos.rol_FK }}</h2>

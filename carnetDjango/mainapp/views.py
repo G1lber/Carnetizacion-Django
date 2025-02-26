@@ -316,7 +316,8 @@ def obtener_datos_usuario_y_ficha(request):
         'tipo_doc_FK': usuario.tipo_doc_FK.nombre_doc if usuario.tipo_doc_FK else None,
         'rol_FK': usuario.rol_FK.nombre_rol if usuario.rol_FK else None,
         'num_ficha_fk': ficha_x_aprendiz.num_ficha_fk.num_ficha if ficha_x_aprendiz and ficha_x_aprendiz.num_ficha_fk else None,
-        'fecha_vencimiento': fecha_vencimiento
+        'fecha_vencimiento': fecha_vencimiento,
+        'foto': usuario.foto,
     }
 
     return render(request, "mainapp/usu-carnet.html", {'datos': datos_usuario})
