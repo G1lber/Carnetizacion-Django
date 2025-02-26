@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth import authenticate, login, logout
 from .forms import CreateFichaForms,CreatePersonalForm
-from .models import Ficha, UsuarioPersonalizado, Tipo_doc, FichaXaprendiz, Rol
+from .models import Ficha, UsuarioPersonalizado, Tipo_doc, FichaXaprendiz, Rol, Rh
 from django.db.models import Q
 from django.http import JsonResponse
 import json
@@ -12,7 +12,20 @@ import json
 
 # Create your views here.
 def index(request):
-    return render(request,'mainapp/index.html')
+    if request.method == "POST":
+        documento = request.POST.get("documento")  # Obtener el número de documento
+
+        try:
+            usuario = UsuarioPersonalizado.objects.get(documento=documento)
+            if usuario.rh_FK is not None and usuario.foto:
+                request.session["documento"] = documento
+                return redirect("carnet")  # Redirigir si cumple las condiciones
+            else:
+                return render(request, "mainapp/index.html", {"error": "El usuario no tiene RH y Foto asignados"})
+        except UsuarioPersonalizado.DoesNotExist:
+            return render(request, "mainapp/index.html", {"error": "Usuario no encontrado"})
+
+    return render(request, "mainapp/index.html")
 
 def loginAdmin(request):
     if request.method == 'GET':
@@ -36,6 +49,9 @@ def gestionar(request):
     return render(request,'mainapp/super-gestionar.html', {
         'form': CreatePersonalForm
         })
+
+def gestionarC(request):
+    return render(request,'mainapp/instru-gestionarA.html')
 
 
 def ficha(request):
@@ -149,6 +165,41 @@ def listar_personal(request):
         
     return render(request, 'mainapp/super-gestionar.html', {'usuarios': usuarios, 'busqueda': busqueda, 'form':CreatePersonalForm})
 
+def listar_aprendices(request):
+    busqueda = request.GET.get("buscar", "")
+    usuarios = UsuarioPersonalizado.objects.filter(rol_FK__nombre_rol="Aprendiz")  # Filtrar solo aprendices
+    rh_list = Rh.objects.all()  # Obtener todos los RH
+
+    if busqueda:
+        usuarios = usuarios.filter(
+            Q(first_name__icontains=busqueda) |
+            Q(documento__icontains=busqueda)
+        ).distinct()
+        
+    return render(request, 'mainapp/instru-gestionarA.html', {
+        'usuarios': usuarios,
+        'busqueda': busqueda,
+        'rh_list': rh_list  # Pasar la lista de RH al template
+    })
+
+def editarAprendiz(request):
+    if request.method == "POST":
+        documento = request.POST.get("documento")
+        rh_id = request.POST.get("rh")
+        foto = request.FILES.get("foto")  # Obtener la foto si se subió
+
+        usuario = get_object_or_404(UsuarioPersonalizado, documento=documento)
+        usuario.rh_FK = get_object_or_404(Rh, id=rh_id)
+
+        if foto:
+            usuario.foto = foto  # Guardar la foto
+            usuario.save()  # Guardar solo si la imagen cambia
+
+        usuario.save()
+
+        return JsonResponse({"success": True})
+
+    return JsonResponse({"success": False, "error": "Método no permitido"}, status=400)
 def personal(request):
     if request.method == 'POST':
         form = CreatePersonalForm(request.POST)
@@ -159,11 +210,13 @@ def personal(request):
             print('hola')   
             rol = Rol.objects.get(nombre_rol=usuario.rol_FK) # Asumiendo que tienes un campo 'role'
             # Aquí puedes hacer lo que necesites dependiendo del rol
-            if rol.nombre_rol == 'Funcionario':  # Si el rol es admin
+            if rol.nombre_rol == 'Funcionario':  # Si el rol es Funcionario
+                usuario.set_password(usuario.password)  # Encripta la contraseña antes de guardarla
                 usuario.save() 
             elif rol.nombre_rol == 'Instructor':  # Si el rol es manager
                 usuario.username = usuario.documento # Un campo que tengas para manager
-                usuario.password = usuario.documento # Un campo que tengas para manager
+                usuario.password = usuario.documento 
+                usuario.set_password(usuario.documento)
                 usuario.save()  
 
                 num_ficha = form.cleaned_data.get('ficha_field')  
@@ -247,29 +300,29 @@ def editarficha(request):
 
     return redirect('actualizarf')  # Si no es POST, redirigir
 
-def obtener_datos_usuario_y_ficha(request, documento):
-    # Obtener el usuario por su documento
+def obtener_datos_usuario_y_ficha(request):
+    documento = request.session.get("documento")  # 🔹 Obtener documento desde la sesión
+
+    if not documento:
+        return redirect("index")  # Si no hay documento en sesión, redirigir al inicio
+
     usuario = get_object_or_404(UsuarioPersonalizado, documento=documento)
-    
-    # Obtener la ficha asociada al usuario
     ficha_x_aprendiz = FichaXaprendiz.objects.filter(documento_fk=usuario).first()
-    
-    # Obtener la fecha de vencimiento (fecha_fin) si existe una ficha asociada
     fecha_vencimiento = ficha_x_aprendiz.num_ficha_fk.fecha_fin if ficha_x_aprendiz and ficha_x_aprendiz.num_ficha_fk else None
 
-    # Preparar los datos para el template
     datos_usuario = {
         'first_name': usuario.first_name,
         'last_name': usuario.last_name,
         'documento': usuario.documento,
-        'rh_FK': usuario.rh_FK,
-        'tipo_doc_FK': usuario.tipo_doc_FK,
-        'rol_FK': usuario.rol_FK,
-        'num_ficha_fk': ficha_x_aprendiz.num_ficha_fk.num_ficha if ficha_x_aprendiz and ficha_x_aprendiz.num_ficha_fk else None,  # Número de ficha
-        'fecha_vencimiento': fecha_vencimiento  # Fecha de vencimiento
+        'rh_FK': usuario.rh_FK.nombre_tipo if usuario.rh_FK else None,
+        'tipo_doc_FK': usuario.tipo_doc_FK.nombre_doc if usuario.tipo_doc_FK else None,
+        'rol_FK': usuario.rol_FK.nombre_rol if usuario.rol_FK else None,
+        'num_ficha_fk': ficha_x_aprendiz.num_ficha_fk.num_ficha if ficha_x_aprendiz and ficha_x_aprendiz.num_ficha_fk else None,
+        'fecha_vencimiento': fecha_vencimiento,
+        'foto': usuario.foto,
     }
     # Renderizar el template con los datos
-    return render(request, 'mainapp/usu-carnet.html', {'datos': datos_usuario})
+    return render(request, "mainapp/usu-carnet.html", {'datos': datos_usuario})
 
 def actualizar_usuario(request):
     if request.method == 'POST':
