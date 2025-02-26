@@ -1,16 +1,18 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="e">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sena Carnet</title>
-  <link rel="stylesheet" href="assets/css/styles.css"/>
-  <link rel="stylesheet" href="assets/css/reset.css">
-  <link rel="stylesheet" href="assets/css/carnet.css">
+  <link rel="stylesheet" href="assets/fonts/fontawesome-free-6.1.2-web/css/all.min.css"/>
+    <link rel="stylesheet" href= {% static "css/reset.css" %}>
+    <link rel="stylesheet" href= {% static "css/carnet.css" %}>
+    <link rel="stylesheet" href={% static "css/styles.css" %}/>
 </head>
 <body>
   <div class="background">
-    <div class="card card-empty"><!-- Nueva tarjeta con borde negro -->
+    <div class="card card-empty">
       <div class="container">
         <p class="text1-carnet">Este carné es personal e instransferible;</p>
         <p class="text-carnet">identifica al portador como aprendiz del</p>
@@ -33,9 +35,9 @@
           <img src="assets/img/firma.jpeg" alt="Firma" class="fotofir">
         </div>
         <h5 class="firma">FIRMA AUTORIZADA</h5>
-        <h5 class="autoriza">Andréss Collazos Robles</h5>
-        <p class="text2-carnet">Vence:       1/08/2006</p>
-        <p class="text2-carnet">Ficha:        2971602</p>
+        <h5 class="autoriza">Andrés Collazos Robles</h5>
+        <p class="text2-carnet">Vence:{{ datos.fecha_vencimiento|date:"d/m/Y"|default:"No asignada" }}</p>
+        <p class="text2-carnet">Ficha:{{ datos.num_ficha_fk|default:"No asignada" }}</p>
       </div>
     </div>
     <div class="card">
@@ -47,32 +49,24 @@
             <img src="assets/img/user2.jpg" alt="Foto"  class="photo">
           </div>
       </section>
-        <h2 class="role">APRENDIZ</h2>
+        <h2 class="role">{{ datos.rol_FK }}</h2>
         <hr class="lineaverde">
-        <h3 class="nombre">Ralph Edwards</h3>
-        <h3 class="apellido">Hamilton</h3>
-        <p class="docu">CC 915123478</p>
-        <p class="tiposan">RH: A+</p>
+        <h3 class="nombre">{{ datos.first_name }} {{ datos.last_name }}</h3>
+        <p class="docu">{{ datos.tipo_doc_FK }} {{ datos.documento }}</p>
+        <p class="tiposan">RH: {{ datos.rh_FK }}</p>
         <div class="barcode">
             <p class="barcode">|||||||||||||||||||||||||||||||||</p>
         </div>
         <hr class="lineanegra">
         <p class="region">Regional Cauca</p>
         <p class="centro">Centro Agropecuario</p> 
-      
     </div>
-    
   </div>
 
   <section class="circle__container">
-    
     <div class="top__circle-carnet"></div>
-    <a href="index.html" class="back-button">
-    <span class="circle-icon">⬅</span>
-    Regresar
-    </a>
-    <div class="bottom__circle-carnet">
-    </div>
+    <a href="index.html" class="back-button">Regresar</a>
+    <div class="bottom__circle-carnet"></div>
   </section>
 </body>
 </html>

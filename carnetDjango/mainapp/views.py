@@ -244,3 +244,27 @@ def editarficha(request):
         return redirect('actualizarf')  # Redirigir después de guardar
 
     return redirect('actualizarf')  # Si no es POST, redirigir
+
+def obtener_datos_usuario_y_ficha(request, documento):
+    # Obtener el usuario por su documento
+    usuario = get_object_or_404(UsuarioPersonalizado, documento=documento)
+    
+    # Obtener la ficha asociada al usuario
+    ficha_x_aprendiz = FichaXaprendiz.objects.filter(documento_fk=usuario).first()
+    
+    # Obtener la fecha de vencimiento (fecha_fin) si existe una ficha asociada
+    fecha_vencimiento = ficha_x_aprendiz.num_ficha_fk.fecha_fin if ficha_x_aprendiz and ficha_x_aprendiz.num_ficha_fk else None
+
+    # Preparar los datos para el template
+    datos_usuario = {
+        'first_name': usuario.first_name,
+        'last_name': usuario.last_name,
+        'documento': usuario.documento,
+        'rh_FK': usuario.rh_FK,
+        'tipo_doc_FK': usuario.tipo_doc_FK,
+        'rol_FK': usuario.rol_FK,
+        'num_ficha_fk': ficha_x_aprendiz.num_ficha_fk.num_ficha if ficha_x_aprendiz and ficha_x_aprendiz.num_ficha_fk else None,  # Número de ficha
+        'fecha_vencimiento': fecha_vencimiento  # Fecha de vencimiento
+    }
+    # Renderizar el template con los datos
+    return render(request, 'mainapp/usu-carnet.html', {'datos': datos_usuario})
