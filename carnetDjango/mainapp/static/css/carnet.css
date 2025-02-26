@@ -173,8 +173,8 @@ body {
 
 /* Texto */
 .role {
-    font-size: 0.9rem;
-    font-weight: bold;
+    font-size: 1rem;
+    font-weight: lighter;
     color: #000;
     margin: 10px 0 5px;
     margin-right: 7.5rem;
