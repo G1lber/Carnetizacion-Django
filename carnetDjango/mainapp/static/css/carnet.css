@@ -181,7 +181,7 @@ body {
 }
 
 .lineaverde {
-    width: 66%;
+    width: 88%;
     height: 2px;
     background-color: #39A900;
     border: none;
@@ -189,18 +189,18 @@ body {
 }
 
 .nombre {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: #39A900;
     font-weight: lighter;
     margin: 5px 0;
-    margin-right: 4.5rem;
+    margin-right: 4rem;
 }
 .apellido{
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: #39A900;
     font-weight:lighter;
     margin:0;
-    margin-right: 7.2rem;
+    margin-right: 2.5rem;
 }
 
 .docu, .tiposan, .region, .centro {

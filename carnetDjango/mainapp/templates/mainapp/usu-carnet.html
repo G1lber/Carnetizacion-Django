@@ -32,7 +32,7 @@
         <p class="text-carnet">serán incorporados para la prestación</p>
         <p class="text-carnet">del servicio militar.</p>
         <div class="photo-firma">
-          <img src="assets/img/firma.jpeg" alt="Firma" class="fotofir">
+          <img src="{% static "imagenes/firma.jpeg" %}" alt="Firma" class="fotofir">
         </div>
         <h5 class="firma">FIRMA AUTORIZADA</h5>
         <h5 class="autoriza">Andrés Collazos Robles</h5>
@@ -51,7 +51,8 @@
       </section>
         <h2 class="role">{{ datos.rol_FK }}</h2>
         <hr class="lineaverde">
-        <h3 class="nombre">{{ datos.first_name }} {{ datos.last_name }}</h3>
+        <h4 class="nombre">{{ datos.first_name }}</h4>
+        <h4 class= "apellido">{{ datos.last_name }}</h4>
         <p class="docu">{{ datos.tipo_doc_FK }} {{ datos.documento }}</p>
         <p class="tiposan">RH: {{ datos.rh_FK }}</p>
         <div class="barcode">
