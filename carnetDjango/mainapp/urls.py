@@ -17,8 +17,9 @@ urlpatterns = [
     path('logout/', views.signout, name='logout'),
     path('logoutAprendiz/', views.signoutAprendiz, name='logoutAprendiz'),
     path('obtener-ficha/<int:ficha_id>/', views.obtener_ficha, name='obtener_ficha'),
-    path('actualizar-usuario/', views.actualizar_usuario, name='actualizar_usuario'),
+    path('obtener-usuario/<int:user_id>/', views.obtener_usuario, name='obtener_usuario'),
     path('eliminar_usuario/', views.eliminar_usuario, name='eliminar_usuario'),
+    path("actualizar-usuario/", views.actualizarUsuario, name="actualizar"),
     path('carnet/', views.obtener_datos_usuario_y_ficha, name='carnet'),
     
 ]

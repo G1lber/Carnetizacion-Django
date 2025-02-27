@@ -28,6 +28,7 @@
             <th>Nombre</th>
             <th>Apellido</th>
             <th>Documento</th>
+            <th>Username</th>
             <th>Acción</th>
             <th>Eliminar</th>
         </tr>
@@ -38,7 +39,8 @@
                 <td>{{ usuario.first_name }}</td>
                 <td>{{ usuario.last_name }}</td>
                 <td>{{ usuario.documento }}</td>
-                <td><button class="btn-edit" id="editarPersonal">Editar</button></td>
+                <td>{{ usuario.username }}</td>
+                <td><button class="btn-edit" id="editarPersonal" data-id={{usuario.documento}}>Editar</button></td>
                 <td><button class="btn-delete" data-documento="{{ usuario.documento }}"  data-url="{% url 'eliminar_usuario' %}">Eliminar</button></td>
             </tr>
         {% empty %}
@@ -110,15 +112,25 @@
     <!-- Modal -->
     <div id="editModal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <form id="editForm">
+            <span class="close-button" id="close-button">&times;</span>
+            <form id="editForm"action="{% url 'actualizar' %}" method="POST"> 
                 {% csrf_token %}
                 <input type="hidden" id="editDocumento" name="documento">
                 <label for="editFirstName">Nombre:</label>
                 <input type="text" id="editFirstName" name="first_name">
                 <label for="editLastName">Apellido:</label>
                 <input type="text" id="editLastName" name="last_name">
-                <button type="submit">Guardar</button>
+                <label for="editUsername">Usuario:</label>
+                <input type="text" id="editUsername" name="username">
+                <label for="editPassword">Contraseña:</label>
+                <input type="text" id="editPassword" name="password">
+                <label for="editRh">RH:</label>
+                <select id="editRh" name="rh"></select>
+                <label for="editRol">Rol:</label>
+                <select id="editRol" name="rol"></select>
+                <label for="editTipo">Tipo de Documento:</label>
+                <select id="editTipo" name="tipodoc"></select>
+                <button type="submit" class="submit-button">Guardar</button>
             </form>
         </div>
     </div>
