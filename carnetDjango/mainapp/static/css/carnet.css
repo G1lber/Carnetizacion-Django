@@ -230,10 +230,15 @@ body {
 
 /* Código de barras */
 .barcode {
-    width: 80%;
-    margin: 10px 0;
-    margin-left: 0.7rem;
-    white-space: nowrap;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.barcode-img {
+    max-width: 100%;  /* Ajusta la imagen para que no se desborde */
+    height: auto;     /* Mantiene la proporción */
 }
 .lineanegra{
     width: 10%;
