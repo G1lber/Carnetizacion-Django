@@ -1,0 +1,107 @@
+
+{% load static %}
+
+{% block contenthead %}
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-free-6.1.2-web/css/all.min.css"/>
+    <link rel="stylesheet" href= {% static "css/reset.css" %}>
+    <link rel="stylesheet" href= {% static "css/inicios.css" %}>
+    <link rel="stylesheet" href= {% static "css/responsive.css" %}>
+    <title>Fichas</title>
+{% endblock contenthead %}
+<header class="header">
+    <nav class="nav">
+        <ul class="nav__list">
+            <li class="nav__item"><a href="{% url 'gestionarCarnet' %}" class="nav__link btn">Volver a fichas</a></li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+    {% block content %}
+    
+    {% if not usuarios  %}
+        <h2>Esta ficha NO tiene Aprendices</h2>
+
+    {% else %}
+        <h2>Solo podras buscar los aprendices de la Ficha: {{ficha}}</h2>
+    {% endif %}
+        <form method="GET">
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Buscar por nombre..." name="buscar" id="buscar" value="{{ busqueda }}">
+                <button id="search-btn" class="btn-search" type="submit">Buscar</button>
+            </div>
+        </form>
+        {% comment %} <button class="green-button" id="createPersonal" action= "{% url 'crearusu'%}">Crear</button> {% endcomment %}
+        {% if busqueda %}
+
+        <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Documento</th>
+                <th>RH</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usuario in usuarios %}
+                <tr>
+                    <td>{{ usuario.first_name }}</td>
+                    <td>{{ usuario.last_name }}</td>
+                    <td>{{ usuario.documento }}</td>
+                    <td>{{ usuario.rh_FK.nombre_tipo }}</td>
+                    <td>
+                        <button class="btn-edit" data-id="{{ usuario.documento }}" data-rh="{{ usuario.rh_FK.id }}">Editar</button>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3">No se encontraron resultados</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+        {{error}}
+        {% endif%}
+        <!-- Modal -->
+        <div id="modal" class="modal">
+            <div class="modal-content">
+            <span class="close-button" id="closeButton">&times;</span>
+            <h2>Editar RH</h2>
+            
+            <!-- Formulario -->
+            <form id="editForm" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" id="usuarioDocumento" name="documento"> <!-- Documento oculto -->
+        
+                <label for="rh">Seleccionar RH:</label>
+                <select id="rh" name="rh">
+                {% for rh in rh_list %}
+                    <option value="{{ rh.id }}">{{ rh.nombre_tipo  }}</option>
+                {% endfor %}
+                </select>
+        
+                <label for="foto">Actualizar Foto:</label>
+                <input type="file" id="foto" name="foto">
+        
+                <button type="submit" class="submit-button">Guardar</button>
+            </form>
+            </div>
+        </div>
+        <script>
+            const editarAprendizURL = "{% url 'editarAprendiz' %}";
+        </script>
+    <script src="{% static "js/modal-editarAprendiz.js" %}"></script>
+        
+    {% endblock content %}
+</main>
+<footer class="footer">
+    <div class="footer__social">
+      <a href="#" class="footer__icon"><i class="fa-brands fa-facebook"></i></a>
+      <a href="#" class="footer__icon"><i class="fa-brands fa-instagram"></i></a>
+      <a href="#" class="footer__icon"><i class="fa-regular fa-envelope"></i></a>
+    </div>
+  <p class="footer__copyright">Copyright 2024</p>
+</footer>
