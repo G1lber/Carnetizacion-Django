@@ -166,19 +166,43 @@ def listar_personal(request):
         
     return render(request, 'mainapp/super-gestionar.html', {'usuarios': usuarios, 'busqueda': busqueda, 'form':CreatePersonalForm})
 
-def listar_aprendices(request):
+def listar_aprendices(request, num_ficha):
+    # Obtener los documentos de los aprendices que pertenecen a la ficha
+    aprendices_ficha = FichaXaprendiz.objects.filter(num_ficha_fk=num_ficha).values_list('documento_fk', flat=True)
+
+    # Filtrar solo los usuarios que están en la ficha y que tienen el rol de "Aprendiz"
+    usuarios = UsuarioPersonalizado.objects.filter(documento__in=aprendices_ficha, rol_FK__nombre_rol="Aprendiz")
+    
+    # Obtener la búsqueda del usuario
     busqueda = request.GET.get("buscar", "")
-    usuarios = UsuarioPersonalizado.objects.filter(rol_FK__nombre_rol="Aprendiz")  # Filtrar solo aprendices
-    rh_list = Rh.objects.all()  # Obtener todos los RH
 
     if busqueda:
         usuarios = usuarios.filter(
             Q(first_name__icontains=busqueda) |
             Q(documento__icontains=busqueda)
         ).distinct()
+
+    # Obtener lista de RH
+    rh_list = Rh.objects.all()
+
+    return render(request, 'mainapp/instru-listarA.html', {
+        'usuarios': usuarios,
+        'busqueda': busqueda,
+        'ficha': num_ficha,
+        'rh_list': rh_list
+    })
+def listar_fichasA(request):
+    busqueda = request.GET.get("buscar", "")
+    fichas = Ficha.objects.all()  # Filtrar solo aprendices
+    rh_list = Rh.objects.all()  # Obtener todos los RH
+
+    if busqueda:
+        fichas = fichas.filter(
+            Q(num_ficha__icontains=busqueda)
+        ).distinct()
         
     return render(request, 'mainapp/instru-gestionarA.html', {
-        'usuarios': usuarios,
+        'fichas': fichas,
         'busqueda': busqueda,
         'rh_list': rh_list  # Pasar la lista de RH al template
     })
