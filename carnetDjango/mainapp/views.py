@@ -179,9 +179,9 @@ def listar_aprendices(request, num_ficha):
     
     # Obtener la búsqueda del usuario
     busqueda = request.GET.get("buscar", "")
-
+    usuarios2=''
     if busqueda:
-        usuarios = usuarios.filter(
+        usuarios2 = usuarios.filter(
             Q(first_name__icontains=busqueda) |
             Q(documento__icontains=busqueda)
         ).distinct()
@@ -191,6 +191,7 @@ def listar_aprendices(request, num_ficha):
 
     return render(request, 'mainapp/instru-listarA.html', {
         'usuarios': usuarios,
+        'usuarios2': usuarios2,
         'busqueda': busqueda,
         'ficha': num_ficha,
         'rh_list': rh_list

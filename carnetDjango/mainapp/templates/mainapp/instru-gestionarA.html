@@ -12,6 +12,7 @@
 {% endblock contenthead %}
 
 {% block content %}
+    <h1>Buscar por número de Ficha</h1>
     <form method="GET" action="{% url 'buscarFichaInstr'%}">
         <div class="search-container">
             <input type="text" class="search-input" placeholder="Buscar por nombre..." name="buscar" id="buscar" value="{{ busqueda }}">
