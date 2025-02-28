@@ -1,3 +1,7 @@
+import barcode
+from barcode.writer import ImageWriter
+from io import BytesIO
+import base64
 import pandas as pd
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
@@ -329,16 +333,30 @@ def editarficha(request):
 
     return redirect('actualizarf')  # Si no es POST, redirigir
 
+
 def obtener_datos_usuario_y_ficha(request):
-    documento = request.session.get("documento")  # 🔹 Obtener documento desde la sesión
+    documento = request.session.get("documento")  # Obtener documento desde la sesión
 
     if not documento:
-        return redirect("index")  # Si no hay documento en sesión, redirigir al inicio
+        return redirect("index")  # Si no hay documento, redirigir al inicio
 
     usuario = get_object_or_404(UsuarioPersonalizado, documento=documento)
     ficha_x_aprendiz = FichaXaprendiz.objects.filter(documento_fk=usuario).first()
     fecha_vencimiento = ficha_x_aprendiz.num_ficha_fk.fecha_fin if ficha_x_aprendiz and ficha_x_aprendiz.num_ficha_fk else None
 
+    # Usar Code 128 (o cualquier otro código de barras)
+    codigo_barras = barcode.get_barcode_class('code128')  # Cambié 'ean13' a 'code128'
+    codigo = codigo_barras(documento, writer=ImageWriter())
+
+    # Guardar el código de barras en memoria
+    buffer = BytesIO()
+    codigo.write(buffer, options={'write_text': False, 'module_width': 0.3, 'module_height': 4})  # Esto oculta el número
+    buffer.seek(0)
+
+    # Convertir la imagen a base64
+    img_str = base64.b64encode(buffer.getvalue()).decode('utf-8')
+
+    # Datos del usuario a pasar al template
     datos_usuario = {
         'first_name': usuario.first_name,
         'last_name': usuario.last_name,
@@ -349,7 +367,9 @@ def obtener_datos_usuario_y_ficha(request):
         'num_ficha_fk': ficha_x_aprendiz.num_ficha_fk.num_ficha if ficha_x_aprendiz and ficha_x_aprendiz.num_ficha_fk else None,
         'fecha_vencimiento': fecha_vencimiento,
         'foto': usuario.foto,
+        'barcode_base64': img_str,  # Imagen del código de barras en base64
     }
+
     # Renderizar el template con los datos
     return render(request, "mainapp/usu-carnet.html", {'datos': datos_usuario})
 

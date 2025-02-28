@@ -56,7 +56,7 @@
         <p class="docu">{{ datos.tipo_doc_FK }} {{ datos.documento }}</p>
         <p class="tiposan">RH: {{ datos.rh_FK }}</p>
         <div class="barcode">
-            <p class="barcode">|||||||||||||||||||||||||||||||||</p>
+          <img src="data:image/png;base64,{{ datos.barcode_base64 }}" alt="Código de barras" class="barcode-img">
         </div>
         <hr class="lineanegra">
         <p class="region">Regional Cauca</p>
