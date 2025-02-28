@@ -173,15 +173,15 @@ body {
 
 /* Texto */
 .role {
-    font-size: 0.9rem;
-    font-weight: bold;
+    font-size: 1rem;
+    font-weight: lighter;
     color: #000;
     margin: 10px 0 5px;
     margin-right: 7.5rem;
 }
 
 .lineaverde {
-    width: 66%;
+    width: 88%;
     height: 2px;
     background-color: #39A900;
     border: none;
@@ -189,18 +189,18 @@ body {
 }
 
 .nombre {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: #39A900;
     font-weight: lighter;
     margin: 5px 0;
-    margin-right: 4.5rem;
+    margin-right: 4rem;
 }
 .apellido{
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: #39A900;
     font-weight:lighter;
     margin:0;
-    margin-right: 7.2rem;
+    margin-right: 2.5rem;
 }
 
 .docu, .tiposan, .region, .centro {

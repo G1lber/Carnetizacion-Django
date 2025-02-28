@@ -1,5 +1,6 @@
 from django.urls import path
-from . import views
+from .import views
+
 urlpatterns = [
     path('', views.index, name="index"),
     path('loginadmin/', views.loginAdmin, name="loginadmin"),
@@ -10,12 +11,16 @@ urlpatterns = [
     path('actualizarf/', views.actualizarf, name='actualizarf'),
     path('editarficha/', views.editarficha, name='editarficha'),
     path('personal/', views.listar_personal, name='personal'),
-    path('aprendices/', views.listar_aprendices, name='buscarAprendices'),
+    path('fichasInstru/', views.listar_fichasA, name='buscarFichaInstr'),
+    path('listarAprendiz/<int:num_ficha>/', views.listar_aprendices, name='listarAprendices'),
     path('ediaraprendiz/', views.editarAprendiz, name='editarAprendiz'),
     path('crearusu/', views.personal, name='crearusu'),
     path('logout/', views.signout, name='logout'),
+    path('logoutAprendiz/', views.signoutAprendiz, name='logoutAprendiz'),
     path('obtener-ficha/<int:ficha_id>/', views.obtener_ficha, name='obtener_ficha'),
+    path('obtener-usuario/<int:user_id>/', views.obtener_usuario, name='obtener_usuario'),
+    path('eliminar_usuario/', views.eliminar_usuario, name='eliminar_usuario'),
+    path("actualizar-usuario/", views.actualizarUsuario, name="actualizar"),
     path('carnet/', views.obtener_datos_usuario_y_ficha, name='carnet'),
-
     
 ]

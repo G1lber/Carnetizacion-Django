@@ -12,7 +12,7 @@
 {% endblock contenthead %}
 
 {% block content %}
-    <form method="GET" action="{% url 'buscarAprendices'%}">
+    <form method="GET" action="{% url 'buscarFichaInstr'%}">
         <div class="search-container">
             <input type="text" class="search-input" placeholder="Buscar por nombre..." name="buscar" id="buscar" value="{{ busqueda }}">
             <button id="search-btn" class="btn-search" type="submit">Buscar</button>
@@ -24,22 +24,26 @@
     <table class="table">
     <thead>
         <tr>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Documento</th>
-            <th>RH</th>
+            <th>N.Ficha</th>
+            <th>Fecha de inicio</th>
+            <th>Estado</th>
+            <th>Lider</th>
             <th>Acción</th>
         </tr>
     </thead>
     <tbody>
-        {% for usuario in usuarios %}
+        {% for ficha in fichas %}
             <tr>
-                <td>{{ usuario.first_name }}</td>
-                <td>{{ usuario.last_name }}</td>
-                <td>{{ usuario.documento }}</td>
-                <td>{{ usuario.rh_FK.nombre_tipo }}</td>
+                <td>{{ ficha.num_ficha }}</td>
+                <td>{{ ficha.fecha_inicio }}</td>
+                {% if ficha.estado == False %}
+                    <td>Inactiva</td>
+                {% else %}
+                    <td>Activa</td>
+                {% endif %}
+                <td>{{ ficha.documento_user }}</td>
                 <td>
-                    <button class="btn-edit" data-id="{{ usuario.documento }}" data-rh="{{ usuario.rh_FK.id }}">Editar</button>
+                    <a href="{% url 'listarAprendices' ficha.num_ficha %}" class="btn-edit">Ver Aprendices</a>
                 </td>
             </tr>
         {% empty %}
@@ -51,34 +55,6 @@
     </table>
     {{error}}
     {% endif%}
-    <!-- Modal -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-          <span class="close-button" id="closeButton">&times;</span>
-          <h2>Editar RH</h2>
-          
-          <!-- Formulario -->
-          <form id="editForm" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="hidden" id="usuarioDocumento" name="documento"> <!-- Documento oculto -->
-      
-            <label for="rh">Seleccionar RH:</label>
-            <select id="rh" name="rh">
-              {% for rh in rh_list %}
-                <option value="{{ rh.id }}">{{ rh.nombre_tipo  }}</option>
-              {% endfor %}
-            </select>
-      
-            <label for="foto">Actualizar Foto:</label>
-            <input type="file" id="foto" name="foto">
-      
-            <button type="submit" class="submit-button">Guardar</button>
-          </form>
-        </div>
-    </div>
-      <script>
-        const editarAprendizURL = "{% url 'editarAprendiz' %}";
-    </script>
-  <script src="{% static "js/modal-editarAprendiz.js" %}"></script>
+    
       
 {% endblock content %}
