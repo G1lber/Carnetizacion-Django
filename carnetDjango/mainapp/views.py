@@ -343,6 +343,7 @@ def obtener_usuario(request, user_id):
             'first_name': usuario.first_name,
             'last_name': usuario.last_name,
             'username': usuario.username,
+            'email': usuario.email,
             'opcion_seleccionada': usuario.rh_FK.id if usuario.rh_FK else None,  # ID seleccionado
             'opciones': opciones,  # Lista de opciones disponibles
             'opcion_anterior': usuario.rol_FK.id if usuario.rol_FK else None,  # ID seleccionado
@@ -364,6 +365,7 @@ def actualizarUsuario(request):
         #usuarios = get_object_or_404(Rh, pk=usuario_id)   Buscar la ficha
         usuario.first_name = request.POST.get("first_name")
         usuario.last_name = request.POST.get("last_name")
+        usuario.email = request.POST.get("email")
         usuario.username = request.POST.get("username")
         usuario.password = request.POST.get("password")
         usuario.set_password(usuario.password)

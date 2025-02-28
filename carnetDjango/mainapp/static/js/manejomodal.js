@@ -28,10 +28,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     document.getElementById("editDocumento").value = data.documento;
                     document.getElementById("editFirstName").value = data.first_name;
                     document.getElementById("editLastName").value = data.last_name;
+                    document.getElementById("editEmail").value = data.email;
                     document.getElementById("editUsername").value = data.username;
                     document.getElementById("editPassword").value = data.password;
 
-                      // Llenar el select con opciones dinámicas
+                    // Llenar el select con opciones dinámicas
                     let selectRh = document.getElementById("editRh");
                     selectRh.innerHTML = ""; // Limpiar opciones previas
                     data.opciones.forEach(opcion => {
@@ -68,12 +69,33 @@ document.addEventListener("DOMContentLoaded", function () {
                         selectTipo_doc.appendChild(option);
                     });
 
+                    // Mostrar u ocultar campos según el rol seleccionado
+                    mostrarCamposSegunRol(data.opcion_anterior);
+
                     // Mostrar el modal
                     editModal.classList.add("show");
                 })
                 .catch(error => console.error("Error al obtener los datos del usuario:", error));
         }
     });
+
+    // Evento para cambiar los campos visibles según el rol seleccionado
+    document.getElementById("editRol").addEventListener("change", function (event) {
+        let rolSeleccionado = event.target.value;
+        mostrarCamposSegunRol(rolSeleccionado);
+    });
+
+    // Función para mostrar u ocultar campos según el rol seleccionado
+    function mostrarCamposSegunRol(rolId) {
+        // Ocultar todos los campos adicionales primero
+        document.querySelectorAll(".campo-adicional").forEach(campo => campo.style.display = "none");
+
+        // Mostrar campos según el rol seleccionado
+        if (rolId == 3 || rolId == 2 ) { // Supongamos que el rol con ID 1 es "Administrador"
+            document.getElementById("campoCompartido").style.display = "block";
+        } 
+        // Puedes agregar más condiciones para otros roles
+    }
 
     // Cerrar modal con botón de "X"
     if (closeEditButton) {
