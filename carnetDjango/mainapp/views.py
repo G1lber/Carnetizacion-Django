@@ -391,8 +391,10 @@ def actualizarUsuario(request):
         usuario.last_name = request.POST.get("last_name")
         usuario.email = request.POST.get("email")
         usuario.username = request.POST.get("username")
-        usuario.password = request.POST.get("password")
-        usuario.set_password(usuario.password)
+
+        nueva_password = request.POST.get("password")
+        if nueva_password:  # Verifica si el campo no está vacío
+            usuario.set_password(nueva_password)
 
         rh_id = request.POST.get("rh")
         usuario.rh_FK = Rh.objects.get(id=rh_id) if rh_id else None

@@ -109,41 +109,41 @@
             </form>
         </div>
     </div>
-    <!-- Modal -->
+    
    <!-- Modal -->
-<div id="editModal" class="modal">
-    <div class="modal-content">
-        <span class="close-button" id="close-button">&times;</span>
-        <form id="editForm" action="{% url 'actualizar' %}" method="POST"> 
-            {% csrf_token %}
-            <input type="hidden" id="editDocumento" name="documento">
-            <label for="editFirstName">Nombre:</label>
-            <input type="text" id="editFirstName" name="first_name">
-            <label for="editLastName">Apellido:</label>
-            <input type="text" id="editLastName" name="last_name">
-            <label for="editRh">RH:</label>
-            <select id="editRh" name="rh"></select>
-            <label for="editRol">Rol:</label>
-            <select id="editRol" name="rol"></select>
-            <label for="editTipo">Tipo de Documento:</label>
-            <select id="editTipo" name="tipodoc"></select>
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeButton">&times;</span>
+            <form id="editForm" action="{% url 'actualizar' %}" method="POST"> 
+                {% csrf_token %}
+                <input type="hidden" id="editDocumento" name="documento">
+                <label for="editFirstName">Nombre:</label>
+                <input type="text" id="editFirstName" name="first_name">
+                <label for="editLastName">Apellido:</label>
+                <input type="text" id="editLastName" name="last_name">
+                <label for="editRh">RH:</label>
+                <select id="editRh" name="rh"></select>
+                <label for="editRol">Rol:</label>
+                <select id="editRol" name="rol"></select>
+                <label for="editTipo">Tipo de Documento:</label>
+                <select id="editTipo" name="tipodoc"></select>
 
-            <!-- Campos adicionales para el rol de Funcionario -->
-            <div id="campoCompartido" class="campo-adicional" style="display: none;">
-                <label for="editUsername">Usuario:</label>
-                <input type="text" id="editUsername" name="username">
+                <!-- Campos adicionales para el rol de Funcionario -->
+                <div id="campoCompartido" class="campo-adicional" style="display: none;">
+                    <label for="editUsername">Usuario:</label>
+                    <input type="text" id="editUsername" name="username">
 
-                <label for="editEmail">Correo:</label>
-                <input type="email" id="editEmail" name="email">
+                    <label for="editEmail">Correo:</label>
+                    <input type="email" id="editEmail" name="email">
 
-                <label for="editPassword">Contraseña:</label>
-                <input type="text" id="editPassword" name="password">
-            </div>
+                    <label for="editPassword">Contraseña:</label>
+                    <input type="text" id="editPassword" name="password">
+                </div>
 
-            <button type="submit" class="submit-button">Guardar</button>
-        </form>
+                <button type="submit" class="submit-button">Guardar</button>
+            </form>
+        </div>
     </div>
-</div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{% static "js/script.js" %}"></script>    
     <script src="{% static "js/scriptJquery.js" %}"></script> 

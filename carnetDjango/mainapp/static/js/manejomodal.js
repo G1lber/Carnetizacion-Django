@@ -1,23 +1,29 @@
 document.addEventListener("DOMContentLoaded", function () {
     const editModal = document.getElementById("editModal");
-    const closeEditButton = document.querySelector(".close-button"); // Asegúrate de que esta clase es correcta
+const closeEditButtons = document.querySelectorAll('.close-button');
 
     if (!editModal) {
         console.error("Error: No se encontró el modal de edición en el DOM.");
         return; // Evita ejecutar el código si el modal no existe
     }
 
-    if (!closeEditButton) {
+    if (!closeEditButtons) {
         console.error("Error: No se encontró el botón de cerrar en el DOM.");
+        return
     }
-
+    closeEditButtons.forEach(closeEditBtn=>{
+        closeEditBtn.addEventListener('click',function(){
+            console.log('Botón de cerrar clickeado');
+            editModal.classList.remove('show');
+        });
+    })
     // Delegación de eventos para los botones de edición
     document.addEventListener("click", function (event) {
         if (event.target.classList.contains("btn-edit")) {
             let userId = event.target.getAttribute("data-id");
 
             console.log(`Abriendo modal de edición para usuario ID: ${userId}`);
-
+            
             // Hacer una solicitud AJAX para obtener los datos del usuario desde la base de datos
             fetch(`/obtener-usuario/${userId}/`)
                 .then(response => response.json())
@@ -30,7 +36,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     document.getElementById("editLastName").value = data.last_name;
                     document.getElementById("editEmail").value = data.email;
                     document.getElementById("editUsername").value = data.username;
-                    document.getElementById("editPassword").value = data.password;
 
                     // Llenar el select con opciones dinámicas
                     let selectRh = document.getElementById("editRh");
@@ -98,13 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Cerrar modal con botón de "X"
-    if (closeEditButton) {
-        closeEditButton.addEventListener("click", function () {
-            console.log("Modal de edición cerrado");
-            editModal.classList.remove("show");
-        });
-    }
-
+    
     // Cerrar modal al hacer clic fuera de él
     window.addEventListener("click", function (event) {
         if (event.target === editModal) {
