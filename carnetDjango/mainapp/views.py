@@ -226,72 +226,63 @@ def editarAprendiz(request):
 
     return JsonResponse({"success": False, "error": "Método no permitido"}, status=400)
 def personal(request):
+    error2 = ""  # Asegurar que error2 esté definido siempre
+
     if request.method == 'POST':
         form = CreatePersonalForm(request.POST)
-        print('llego el form')
+
         if form.is_valid():
+            documento = form.cleaned_data.get('documento')
+
+            # Verificar si el documento ya existe
+            if UsuarioPersonalizado.objects.filter(documento=documento).exists():
+                error2 = "Error: El documento ya existe"
+                return render(request, 'mainapp/super-gestionar.html', {'error2': error2})
+
             usuario = form.save(commit=False)  # No guarda aún en la base de datos
             usuario.is_active = True  # Activa el usuario por defecto
-            print('hola')   
-            rol = Rol.objects.get(nombre_rol=usuario.rol_FK) # Asumiendo que tienes un campo 'role'
-            # Aquí puedes hacer lo que necesites dependiendo del rol
-            if rol.nombre_rol == 'Funcionario':  # Si el rol es Funcionario
-                usuario.set_password(usuario.password)  # Encripta la contraseña antes de guardarla
+            
+            rol = Rol.objects.get(nombre_rol=usuario.rol_FK)
+
+            if rol.nombre_rol == 'Funcionario':
+                usuario.set_password(usuario.password)
                 usuario.save() 
-            elif rol.nombre_rol == 'Instructor':  # Si el rol es manager
-                usuario.username = usuario.documento # Un campo que tengas para manager
-                usuario.password = usuario.documento 
+
+            elif rol.nombre_rol == 'Instructor':
+                usuario.username = usuario.documento
+                usuario.password = usuario.documento
                 usuario.set_password(usuario.documento)
                 usuario.save()  
 
                 num_ficha = form.cleaned_data.get('ficha_field')  
-                print(f"Ficha recibida del formulario: {num_ficha}")
-
                 if num_ficha:
-                    try:
-                        # Verificar si existe una ficha con el num_ficha proporcionado
-                        # ficha = Ficha.objects.get(num_ficha=num_ficha)  # Intentamos obtener la ficha por su número
-                        # usuario.documento_user = usuario.documento  # Asignamos el usuario al campo documento_user
-                        ficha=Ficha.objects.filter(num_ficha=num_ficha).update(documento_user=usuario.documento)
-                        print(ficha)
-                        
-                        print('hola33333')
-                    except Ficha.DoesNotExist:
-                        print(f"No se encontró una ficha con el número {num_ficha}")
-                        # Puedes manejar el error aquí (mostrar un mensaje o redirigir a una página de error)
+                    ficha = Ficha.objects.filter(num_ficha=num_ficha).update(documento_user=usuario.documento)
 
-                return redirect('personal')  # Redirigimos a la página correspondiente
-
-            elif rol.nombre_rol == 'Aprendiz':  # Si el rol es manager
-                usuario.username = usuario.documento # Un campo que tengas para manager
+            elif rol.nombre_rol == 'Aprendiz':
+                usuario.username = usuario.documento
                 usuario.save()
 
-                num_ficha = form.cleaned_data.get('ficha_field') 
+                num_ficha = form.cleaned_data.get('ficha_field')  
                 if num_ficha:
                     try:
                         ficha_instance = Ficha.objects.get(num_ficha=num_ficha)
                         usuario_instance = UsuarioPersonalizado.objects.get(documento=usuario.documento)
-                        fichaxA=FichaXaprendiz.objects.create(documento_fk=usuario_instance,num_ficha_fk=ficha_instance)
-                        print(fichaxA)
+                        fichaxA = FichaXaprendiz.objects.create(documento_fk=usuario_instance, num_ficha_fk=ficha_instance)
                     except Ficha.DoesNotExist:
                         print(f"No se encontró una ficha con el número {num_ficha}")
-                        # Puedes manejar el error aquí (mostrar un mensaje o redirigir a una página de error)
 
-                return redirect('personal')  # Redirigimos a la página correspondiente
-            else:
-                usuario.is_active = True  
-                return redirect('personal')
+            return redirect('personal')
+
         else:
-            form = CreatePersonalForm(request.POST)
-            print(form.errors)
+            error2 = "Error en el formulario. Verifica los datos ingresados."
+            print("Errores en el formulario:", form.errors)
 
     else:
         form = CreatePersonalForm()
-    print('holass')
-    print(form.errors)
-    return render(request, 'mainapp/super-gestionar.html', {
-        'form': form  
-    })
+
+    return render(request, 'mainapp/super-gestionar.html', {'form': form, 'error2': error2})
+
+
 
 def signout(request):
     logout(request)
