@@ -1,3 +1,7 @@
+import barcode
+from barcode.writer import ImageWriter
+from io import BytesIO
+import base64
 import pandas as pd
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
@@ -320,16 +324,30 @@ def editarficha(request):
 
     return redirect('actualizarf')  # Si no es POST, redirigir
 
+
 def obtener_datos_usuario_y_ficha(request):
-    documento = request.session.get("documento")  # 🔹 Obtener documento desde la sesión
+    documento = request.session.get("documento")  # Obtener documento desde la sesión
 
     if not documento:
-        return redirect("index")  # Si no hay documento en sesión, redirigir al inicio
+        return redirect("index")  # Si no hay documento, redirigir al inicio
 
     usuario = get_object_or_404(UsuarioPersonalizado, documento=documento)
     ficha_x_aprendiz = FichaXaprendiz.objects.filter(documento_fk=usuario).first()
     fecha_vencimiento = ficha_x_aprendiz.num_ficha_fk.fecha_fin if ficha_x_aprendiz and ficha_x_aprendiz.num_ficha_fk else None
 
+    # Usar Code 128 (o cualquier otro código de barras)
+    codigo_barras = barcode.get_barcode_class('code128')  # Cambié 'ean13' a 'code128'
+    codigo = codigo_barras(documento, writer=ImageWriter())
+
+    # Guardar el código de barras en memoria
+    buffer = BytesIO()
+    codigo.write(buffer, options={'write_text': False, 'module_width': 0.3, 'module_height': 4})  # Esto oculta el número
+    buffer.seek(0)
+
+    # Convertir la imagen a base64
+    img_str = base64.b64encode(buffer.getvalue()).decode('utf-8')
+
+    # Datos del usuario a pasar al template
     datos_usuario = {
         'first_name': usuario.first_name,
         'last_name': usuario.last_name,
@@ -340,7 +358,9 @@ def obtener_datos_usuario_y_ficha(request):
         'num_ficha_fk': ficha_x_aprendiz.num_ficha_fk.num_ficha if ficha_x_aprendiz and ficha_x_aprendiz.num_ficha_fk else None,
         'fecha_vencimiento': fecha_vencimiento,
         'foto': usuario.foto,
+        'barcode_base64': img_str,  # Imagen del código de barras en base64
     }
+
     # Renderizar el template con los datos
     return render(request, "mainapp/usu-carnet.html", {'datos': datos_usuario})
 
@@ -358,6 +378,7 @@ def obtener_usuario(request, user_id):
             'first_name': usuario.first_name,
             'last_name': usuario.last_name,
             'username': usuario.username,
+            'email': usuario.email,
             'opcion_seleccionada': usuario.rh_FK.id if usuario.rh_FK else None,  # ID seleccionado
             'opciones': opciones,  # Lista de opciones disponibles
             'opcion_anterior': usuario.rol_FK.id if usuario.rol_FK else None,  # ID seleccionado
@@ -379,9 +400,12 @@ def actualizarUsuario(request):
         #usuarios = get_object_or_404(Rh, pk=usuario_id)   Buscar la ficha
         usuario.first_name = request.POST.get("first_name")
         usuario.last_name = request.POST.get("last_name")
+        usuario.email = request.POST.get("email")
         usuario.username = request.POST.get("username")
-        usuario.password = request.POST.get("password")
-        usuario.set_password(usuario.password)
+
+        nueva_password = request.POST.get("password")
+        if nueva_password:  # Verifica si el campo no está vacío
+            usuario.set_password(nueva_password)
 
         rh_id = request.POST.get("rh")
         usuario.rh_FK = Rh.objects.get(id=rh_id) if rh_id else None
