@@ -1,34 +1,34 @@
-$(document).ready(function() {
-    $('.btn-delete').click(function() {
-        var documento = $(this).data('documento');
-        var url = $(this).data('url');
-        console.log("Documento:", documento);  // Depuración
-        console.log("URL:", url);  // Depuración
-        console.log("CSRF Token:", csrftoken);  // Depuración
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".btn-delete").forEach(button => {
+        button.addEventListener("click", function () {
+            let documento = this.getAttribute("data-documento");
+            let url = this.getAttribute("data-url");
 
-        if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
-            $.ajax({
-                url: url,
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': csrftoken
-                },
-                data: {
-                    'documento': documento,
-                },
-                success: function(response) {
-                    console.log("Respuesta del servidor:", response);  // Depuración
-                    if (response.success) {
-                        $('#usuario-' + documento).remove();
+            if (confirm(`¿Estás seguro de que quieres eliminar el usuario con documento ${documento}?`)) {
+                fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "X-CSRFToken": getCSRFToken()  // Añadir CSRF Token
+                    },
+                    body: `documento=${documento}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Usuario eliminado correctamente.");
+                        document.getElementById(`usuario-${documento}`).remove(); // Elimina la fila de la tabla
                     } else {
-                        alert('Error al eliminar el usuario: ' + response.error);
+                        alert(`Error: ${data.error}`);
                     }
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error en la solicitud AJAX:", error);  // Depuración
-                    alert('Error al eliminar el usuario. Detalles: ' + xhr.responseText);
-                }
-            });
-        }
+                })
+                .catch(error => console.error("Error al eliminar usuario:", error));
+            }
+        });
     });
 });
+
+// Función para obtener el token CSRF desde el template
+function getCSRFToken() {
+    return document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+}
