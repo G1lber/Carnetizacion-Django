@@ -21,7 +21,7 @@ def index(request):
                 request.session["documento"] = documento
                 return redirect("carnet")  # Redirigir si cumple las condiciones
             else:
-                return render(request, "mainapp/index.html", {"error": "El usuario no tiene RH y Foto asignados"})
+                return render(request, "mainapp/index.html", {"error": "El usuario no tiene RH o Foto asignados"})
         except UsuarioPersonalizado.DoesNotExist:
             return render(request, "mainapp/index.html", {"error": "Usuario no encontrado"})
 
@@ -69,7 +69,7 @@ def ficha(request):
             # Procesar el archivo Excel
             archivo_excel = request.FILES.get('archivo_excel')
             if not archivo_excel:
-                return render(request, 'mainapp/super-ficha.html', {
+                return render(request,'mainapp/super-ficha.html', {
                     'form': form,
                     'error': "No se cargó el archivo Excel."
                 })
@@ -85,7 +85,7 @@ def ficha(request):
                             'form': form,
                             'error': "El archivo Excel no tiene las columnas esperadas."
                         })
-
+                    rol_instance = Rol.objects.get(id=1) 
                     # Iterar sobre las filas del DataFrame
                     for index, row in df.iterrows():
                         # Obtener la instancia de Tipo_doc
@@ -104,6 +104,7 @@ def ficha(request):
                                     'documento': row['Número de Documento'],
                                     'first_name': row['Nombre'],
                                     'last_name': row['Apellidos'],
+                                    'rol_FK': rol_instance,
                                     'is_active': is_active
                                 }
                             )
@@ -296,6 +297,10 @@ def signout(request):
     logout(request)
     return redirect('/loginadmin/')
 
+def signoutAprendiz(request):
+    logout(request)
+    return redirect('index')
+
 def obtener_ficha(request, ficha_id):
     try:
         ficha = Ficha.objects.get(num_ficha=ficha_id)
@@ -348,21 +353,58 @@ def obtener_datos_usuario_y_ficha(request):
     # Renderizar el template con los datos
     return render(request, "mainapp/usu-carnet.html", {'datos': datos_usuario})
 
-def actualizar_usuario(request):
-    if request.method == 'POST':
-        documento = request.POST.get('documento')
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
+def obtener_usuario(request, user_id):
+   
+    if request.method == 'GET':
+        usuario = get_object_or_404(UsuarioPersonalizado, documento=user_id)  # Busca el usuario por ID
+        opciones = list(Rh.objects.values_list('id', 'nombre_tipo'))
+        roles= list(Rol.objects.values_list('id', 'nombre_rol'))
+        tipos= list(Tipo_doc.objects.values_list('id', 'nombre_doc'))
 
-        try:
-            usuario = UsuarioPersonalizado.objects.get(documento=documento)
-            usuario.first_name = first_name
-            usuario.last_name = last_name
-            usuario.save()
-            return JsonResponse({'success': True})
-        except UsuarioPersonalizado.DoesNotExist:
-            return JsonResponse({'success': False, 'error': 'Usuario no encontrado'})
-    return JsonResponse({'success': False, 'error': 'Método no permitido'})
+        # Devuelve los datos en formato JSON
+        return JsonResponse({
+            'documento': usuario.documento,
+            'first_name': usuario.first_name,
+            'last_name': usuario.last_name,
+            'username': usuario.username,
+            'opcion_seleccionada': usuario.rh_FK.id if usuario.rh_FK else None,  # ID seleccionado
+            'opciones': opciones,  # Lista de opciones disponibles
+            'opcion_anterior': usuario.rol_FK.id if usuario.rol_FK else None,  # ID seleccionado
+            'roles': roles,  # Lista de opciones disponibles
+            'opcion_antes': usuario.tipo_doc_FK.id if usuario.tipo_doc_FK else None,  # ID seleccionado
+            'tipos': tipos # Lista de opciones disponibles
+
+
+        })
+    
+    return JsonResponse({'error': 'Método no permitido'}, status=405)
+
+def actualizarUsuario(request):
+    if request.method == "POST":
+        usuario_id = request.POST.get("documento")  # Recuperar ID desde el formulario
+        usuario = UsuarioPersonalizado.objects.get(documento=usuario_id)
+         
+
+        #usuarios = get_object_or_404(Rh, pk=usuario_id)   Buscar la ficha
+        usuario.first_name = request.POST.get("first_name")
+        usuario.last_name = request.POST.get("last_name")
+        usuario.username = request.POST.get("username")
+        usuario.password = request.POST.get("password")
+        usuario.set_password(usuario.password)
+
+        rh_id = request.POST.get("rh")
+        usuario.rh_FK = Rh.objects.get(id=rh_id) if rh_id else None
+        rol_id = request.POST.get("rol")
+        usuario.rol_FK = Rol.objects.get(id=rol_id) if rol_id else None
+        tipo_doc_id = request.POST.get("tipodoc")
+        print(request.POST.get("tipodoc"))
+        usuario.tipo_doc_FK = Tipo_doc.objects.get(id=tipo_doc_id) if tipo_doc_id else None
+        usuario.save()
+
+        return redirect('personal')  # Redirigir después de guardar
+
+    return redirect('personal')  # Si no es POST, redirigir
+
 
 def eliminar_usuario(request):
     if request.method == 'POST':

@@ -25,7 +25,7 @@ class UsuarioPersonalizado(AbstractUser):
     rol_FK = models.ForeignKey('Rol', on_delete=models.SET_NULL, null=True, blank=True)
     rh_FK = models.ForeignKey('Rh', on_delete=models.SET_NULL, null=True, blank=True)
     tipo_doc_FK = models.ForeignKey('Tipo_doc', on_delete=models.SET_NULL, null=True, blank=True)
-    is_active= models.IntegerField()
+    is_active= models.IntegerField(default=True)
     foto = models.ImageField(upload_to='usuarios_fotos/', null=True, blank=True)
 
     groups = models.ManyToManyField(Group, related_name="custom_user_groups", blank=True)
@@ -46,7 +46,7 @@ class FichaXaprendiz(models.Model):
     documento_fk= models.ForeignKey('UsuarioPersonalizado',on_delete=models.SET_NULL, null=True, blank=True)
 
 class Carnet(models.Model):
-    documento_fk= models.ForeignKey('UsuarioPersonalizado',on_delete=models.SET_NULL, null=True, blank=True)
+    documento_fk= models.ForeignKey('UsuarioPersonalizado',on_delete=models.SET_NULL, null=True, blank=True) 
     id_FichaXaprendiz= models.ForeignKey('FichaXaprendiz',on_delete=models.SET_NULL, null=True, blank=True)
     fecha_fin = models.DateField(blank=True, null=True )
     estado = models.BooleanField(default=True)  # Valor por defecto: True

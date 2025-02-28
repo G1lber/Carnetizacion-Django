@@ -391,6 +391,26 @@ body {
   transition: background 0.3s ease, color 0.3s ease;
 }
 
+#buttonClose {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #555;
+  padding: 5px;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
 .close-button:hover {
   background: rgba(0, 0, 0, 0.1);
   color: #000;
