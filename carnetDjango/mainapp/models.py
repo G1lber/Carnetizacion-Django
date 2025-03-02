@@ -44,6 +44,7 @@ class Ficha(models.Model):
 class FichaXaprendiz(models.Model):
     num_ficha_fk= models.ForeignKey('Ficha',on_delete=models.SET_NULL, null=True, blank=True)
     documento_fk= models.ForeignKey('UsuarioPersonalizado',on_delete=models.SET_NULL, null=True, blank=True)
+    estadoC= models.BooleanField(default=False)
 
 class Carnet(models.Model):
     documento_fk= models.ForeignKey('UsuarioPersonalizado',on_delete=models.SET_NULL, null=True, blank=True) 

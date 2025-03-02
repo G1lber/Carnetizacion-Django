@@ -13,6 +13,7 @@ urlpatterns = [
     path('personal/', views.listar_personal, name='personal'),
     path('fichasInstru/', views.listar_fichasA, name='buscarFichaInstr'),
     path('listarAprendiz/<int:num_ficha>/', views.listar_aprendices, name='listarAprendices'),
+    path('cambiar_estado_aprendiz/', views.cambiar_estado_aprendiz, name='cambiar_estado_aprendiz'),
     path('editaraprendiz/', views.editarAprendiz, name='editarAprendiz'),
     path('crearusu/', views.personal, name='crearusu'),
     path('logout/', views.signout, name='logout'),
