@@ -9,7 +9,7 @@ from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth import authenticate, login, logout
 from .forms import CreateFichaForms,CreatePersonalForm
 from .models import Ficha, UsuarioPersonalizado, Tipo_doc, FichaXaprendiz, Rol, Rh
-from django.db.models import Q, Subquery, OuterRef
+from django.db.models import Q, Subquery, OuterRef, Count
 from django.http import JsonResponse
 import json
 
@@ -464,4 +464,11 @@ def eliminar_usuario(request):
     return JsonResponse({'success': False, 'error': 'Método no permitido'})
 
 def informe(request):
-    return render(request, 'mainapp/super-informe.html')
+    # Contar usuarios activados y desactivados
+    datos = FichaXaprendiz.objects.values('estadoC').annotate(total=Count('id'))
+    
+    # Formatear los datos para la gráfica
+    estados = {1: "Activos", 0: "Inactivos"}  # Ajusta según los valores de estadoC
+    data = {estados.get(d['estadoC'], "Desconocido"): d['total'] for d in datos}
+
+    return render(request, 'mainapp/super-informe.html', {'data': data})
