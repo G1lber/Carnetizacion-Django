@@ -432,3 +432,6 @@ def eliminar_usuario(request):
         except UsuarioPersonalizado.DoesNotExist:
             return JsonResponse({'success': False, 'error': 'Usuario no encontrado'})
     return JsonResponse({'success': False, 'error': 'Método no permitido'})
+
+def informe(request):
+    return render(request, 'mainapp/super-informe.html')

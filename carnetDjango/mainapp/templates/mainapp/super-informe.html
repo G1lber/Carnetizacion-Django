@@ -1,0 +1,88 @@
+{% extends "layouts/layout.html" %}
+{% load static %}
+{% block contenthead %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="assets/fonts/fontawesome-free-6.1.2-web/css/all.min.css"/>
+  <link rel="stylesheet" href= {% static "css/reset.css" %}>
+  <link rel="stylesheet" href= {% static "css/inicios.css" %}>
+  <link rel="stylesheet" href= {% static "css/responsive.css" %}>
+  <title>Informe</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock contenthead %}
+
+{% block content %}
+  <section class="welcome__1">
+    <div class="welcome__container"> 
+        <h2>Distribución de Datos</h2>
+    <canvas id="miGrafico"></canvas>
+
+    <script>
+        fetch('/datos_grafico/')  // Llama a la vista en Django
+            .then(response => response.json())
+            .then(data => {
+                var ctx = document.getElementById('miGrafico').getContext('2d');
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            data: data.valores,
+                            backgroundColor: ['#ff6384', '#36a2eb', '#4bc0c0', '#ffce56', '#9966ff']
+                        }]
+                    }
+                });
+            });
+    </script>
+    </div>
+    <div class="welcome__image">
+          <img src={% static "imagenes/img-key.png" %} alt="APY icon">
+    </div>
+    </section>
+        <div class="button-container">
+          <div class="grey-button">
+            <span>Crear una ficha</span>
+            <button class="green-button" id="createButton">CREAR</button>
+          </div>
+        </div>
+        {{error}}
+        <!-- Modal -->
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close-button" id="closeButton">&times;</span>
+                <h2>Crear Ficha</h2>
+                <!-- Formulario -->
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form }}
+                    {% comment %} <button type="submit" class="submit-button">
+                        Guardar
+                    </button> {% endcomment %}
+                  {% comment %} <div class="mb-3">
+                      <label for="numeroficha" class="form-label">Número de Ficha</label>
+                      <input type="text" class="form-control" id="numeroficha" placeholder="Número Ficha" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+                  </div> {% endcomment %}
+  
+                  {% comment %} <form method="post" enctype="multipart/form-data">
+                      <div>
+                          <label for="file">Cargar Fotos</label>
+                          <input type="file" id="file" name="file" multiple />
+                      </div>
+
+                  </form> 
+                  {% endcomment %}
+                  <div>
+                    <input type="file" id="archivo_excel" name="archivo_excel">
+                  </div>
+                  <button type="submit" class="submit-button">Guardar</button>
+              </form>
+          </div>
+      </div>
+      <script src="{% static "js/script.js" %}"></script>
+
+
+{% endblock content %}
+
+      
+          
+     

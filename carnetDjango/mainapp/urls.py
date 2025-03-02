@@ -22,5 +22,6 @@ urlpatterns = [
     path('eliminar_usuario/', views.eliminar_usuario, name='eliminar_usuario'),
     path("actualizar-usuario/", views.actualizarUsuario, name="actualizar"),
     path('carnet/', views.obtener_datos_usuario_y_ficha, name='carnet'),
+    path('informe/', views.informe, name='informe'),
     
 ]
