@@ -4,10 +4,10 @@
 {% block contenthead %}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="assets/fonts/fontawesome-free-6.1.2-web/css/all.min.css"/>
-  <link rel="stylesheet" href={% static "css/reset.css" %}>
-  <link rel="stylesheet" href={% static "css/inicios.css" %}>
-  <link rel="stylesheet" href={% static "css/responsive.css" %}>
+  <link rel="stylesheet" href="{% static 'fonts/fontawesome-free-6.1.2-web/css/all.min.css' %}"/>
+  <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+  <link rel="stylesheet" href="{% static 'css/inicios.css' %}">
+  <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
   <title>Informe</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock contenthead %}
@@ -20,27 +20,16 @@
     </div>
   </section>
 
-  <script>
-    var ctx = document.getElementById('graficoTorta').getContext('2d');
-    var data = {{ data|safe }};  // Datos pasados desde Django
+  <!-- Datos JSON ocultos -->
+  {{ data|json_script:"graficoData" }}
 
-    var total = Object.values(data).reduce((a, b) => a + b, 0);
-    var porcentajes = Object.values(data).map(value => ((value / total) * 100).toFixed(2));
-    var etiquetas = Object.keys(data).map((label, index) => `${label} (${porcentajes[index]}%)`);
+  <h3>Descargar Informe</h3>
+  <button id="downloadExcel" class="green-button">Descargar Excel</button>
 
-    new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: etiquetas,
-            datasets: [{
-                data: Object.values(data),
-                backgroundColor: ['#002b46', '#39A900'],
-            }]
-        }
-    });
-
-  </script>
+  <!-- Archivo JavaScript externo -->
+  <script src="{% static 'js/informe.js' %}"></script>
 {% endblock content %}
+
 
       
           

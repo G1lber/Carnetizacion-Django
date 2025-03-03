@@ -1,16 +1,17 @@
 import barcode
+import openpyxl
 from barcode.writer import ImageWriter
 from io import BytesIO
 import base64
 import pandas as pd
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth import authenticate, login, logout
 from .forms import CreateFichaForms,CreatePersonalForm
 from .models import Ficha, UsuarioPersonalizado, Tipo_doc, FichaXaprendiz, Rol, Rh
 from django.db.models import Q, Subquery, OuterRef, Count
-from django.http import JsonResponse
+
 import json
 
 # Create your views here.
@@ -472,3 +473,29 @@ def informe(request):
     data = {estados.get(d['estadoC'], "Desconocido"): d['total'] for d in datos}
 
     return render(request, 'mainapp/super-informe.html', {'data': data})
+
+def exportar_excel(request):
+    # Crear el libro de trabajo y la hoja
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Usuarios"
+
+    # Agregar encabezados
+    ws.append(["Documento", "Nombre", "Ficha", "Estado"])
+
+    # Obtener datos de los usuarios con su ficha
+    usuarios = FichaXaprendiz.objects.select_related('documento_fk', 'num_ficha_fk')
+
+    for usuario in usuarios:
+        documento = usuario.documento_fk.documento if usuario.documento_fk else "Sin documento"
+        nombre = usuario.documento_fk.first_name if usuario.documento_fk else "Sin nombre"
+        ficha = usuario.num_ficha_fk.num_ficha if usuario.num_ficha_fk else "Sin ficha"
+        estado = "Activo" if usuario.estadoC else "Inactivo"
+        ws.append([documento, nombre, ficha, estado])
+
+    # Configurar la respuesta HTTP para la descarga del archivo
+    response = HttpResponse(content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    response["Content-Disposition"] = 'attachment; filename="usuarios.xlsx"'
+
+    wb.save(response)
+    return response

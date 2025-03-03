@@ -24,5 +24,6 @@ urlpatterns = [
     path("actualizar-usuario/", views.actualizarUsuario, name="actualizar"),
     path('carnet/', views.obtener_datos_usuario_y_ficha, name='carnet'),
     path('informe/', views.informe, name='informe'),
+    path('descargar-excel/', views.exportar_excel, name='descargar_excel'),
     
 ]
