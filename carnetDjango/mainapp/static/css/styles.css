@@ -88,19 +88,19 @@ body {
 
 /* Ajuste para pantallas grandes */
 .background::before {
-  width: 120px;
-  height: 120px;
+  width: 80px;
+  height: 80px;
   background: #1F2A63;
-  top: -50px;
-  left: -50px;
+  top: -40px;
+  left: -40px;
 }
 
 .background::after {
-  width: 120px;
-  height: 120px;
+  width: 80px;
+  height: 8px;
   background: #39A900;
-  bottom: -50px;
-  right: -50px;
+  bottom: -40px;
+  right: -40px;
 }
 
 .login__user {

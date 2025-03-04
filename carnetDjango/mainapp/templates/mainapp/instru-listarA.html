@@ -100,28 +100,12 @@
         </div>
         <script>
             const editarAprendizURL = "{% url 'editarAprendiz' %}";
+            const cambiarEstadoURL = "{% url 'cambiar_estado_aprendiz' %}"; 
         </script>
     <script src="{% static "js/modal-editarAprendiz.js" %}"></script>
+    <script src="{% static "js/estado-aprendiz.js" %}"></script>
     <script src="{% static "js/responsive.js" %}"></script>
 
         
-    {% endblock content %}
-</main>
-<footer class="footer">
-    <div class="footer__social">
-      <a href="#" class="footer__icon"><i class="fa-brands fa-facebook"></i></a>
-      <a href="#" class="footer__icon"><i class="fa-brands fa-instagram"></i></a>
-      <a href="#" class="footer__icon"><i class="fa-regular fa-envelope"></i></a>
-
-    </div>
-
-    <script>
-        const editarAprendizURL = "{% url 'editarAprendiz' %}";
-        const cambiarEstadoURL = "{% url 'cambiar_estado_aprendiz' %}"; 
-    </script>
-
-    <script src="{% static "js/estado-aprendiz.js" %}"></script>
-    <script src="{% static "js/modal-editarAprendiz.js" %}"></script>
-
     {% endblock content %}
 </main>
