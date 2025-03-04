@@ -1,0 +1,36 @@
+{% extends "layouts/layout.html" %}
+{% load static %}
+
+{% block contenthead %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'fonts/fontawesome-free-6.1.2-web/css/all.min.css' %}"/>
+  <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+  <link rel="stylesheet" href="{% static 'css/inicios.css' %}">
+  <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+  <title>Informe</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock contenthead %}
+
+{% block content %}
+  <section class="welcome__1">
+    <div class="welcome__content">
+      <h2>Aprendices con el carnet Activo vs Inactivo</h2>
+      <canvas id="graficoTorta"></canvas>
+    </div>
+  </section>
+
+  <!-- Datos JSON ocultos -->
+  {{ data|json_script:"graficoData" }}
+
+  <h3>Descargar Informe</h3>
+  <button id="downloadExcel" class="green-button">Descargar Excel</button>
+
+  <!-- Archivo JavaScript externo -->
+  <script src="{% static 'js/informe.js' %}"></script>
+{% endblock content %}
+
+
+      
+          
+     

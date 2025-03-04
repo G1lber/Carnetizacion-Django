@@ -1,18 +1,18 @@
 import barcode
+import openpyxl
 from barcode.writer import ImageWriter
 from io import BytesIO
 import base64
 import pandas as pd
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth import authenticate, login, logout
 from .forms import CreateFichaForms,CreatePersonalForm
 from .models import Ficha, UsuarioPersonalizado, Tipo_doc, FichaXaprendiz, Rol, Rh
-from django.db.models import Q
-from django.http import JsonResponse
-import json
+from django.db.models import Q, Subquery, OuterRef, Count
 
+import json
 
 # Create your views here.
 def index(request):
@@ -171,15 +171,25 @@ def listar_personal(request):
     return render(request, 'mainapp/super-gestionar.html', {'usuarios': usuarios, 'busqueda': busqueda, 'form':CreatePersonalForm})
 
 def listar_aprendices(request, num_ficha):
-    # Obtener los documentos de los aprendices que pertenecen a la ficha
-    aprendices_ficha = FichaXaprendiz.objects.filter(num_ficha_fk=num_ficha).values_list('documento_fk', flat=True)
+    # Obtener los documentos de los aprendices de la ficha con su estado
+    aprendices_ficha = FichaXaprendiz.objects.filter(num_ficha_fk=num_ficha).select_related('documento_fk')
 
-    # Filtrar solo los usuarios que están en la ficha y que tienen el rol de "Aprendiz"
-    usuarios = UsuarioPersonalizado.objects.filter(documento__in=aprendices_ficha, rol_FK__nombre_rol="Aprendiz")
-    
+    # Obtener solo los usuarios que están en la ficha y tienen el rol "Aprendiz"
+    usuarios = UsuarioPersonalizado.objects.filter(
+        documento__in=aprendices_ficha.values_list('documento_fk', flat=True),
+        rol_FK__nombre_rol="Aprendiz"
+    ).annotate(
+        estadoC=Subquery(
+            FichaXaprendiz.objects.filter(
+                documento_fk=OuterRef('documento'),
+                num_ficha_fk=num_ficha
+            ).values('estadoC')[:1]
+        )
+    )
+
     # Obtener la búsqueda del usuario
     busqueda = request.GET.get("buscar", "")
-    usuarios2=''
+    usuarios2 = ''
     if busqueda:
         usuarios2 = usuarios.filter(
             Q(first_name__icontains=busqueda) |
@@ -196,6 +206,27 @@ def listar_aprendices(request, num_ficha):
         'ficha': num_ficha,
         'rh_list': rh_list
     })
+
+def cambiar_estado_aprendiz(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            documento = data.get("documento")
+            ficha = data.get("ficha")
+            nuevo_estado = data.get("estado")
+
+            ficha_aprendiz = FichaXaprendiz.objects.get(documento_fk=documento, num_ficha_fk=ficha)
+            ficha_aprendiz.estadoC = nuevo_estado
+            ficha_aprendiz.save()
+
+            return JsonResponse({"success": True, "nuevo_estado": nuevo_estado})
+        except FichaXaprendiz.DoesNotExist:
+            return JsonResponse({"success": False, "message": "No se encontró la relación entre ficha y aprendiz"})
+        except Exception as e:
+            return JsonResponse({"success": False, "message": str(e)})
+    
+    return JsonResponse({"success": False, "message": "Método no permitido"}, status=405)
+
 def listar_fichasA(request):
     busqueda = request.GET.get("buscar", "")
     fichas = Ficha.objects.all()  # Filtrar solo aprendices
@@ -432,3 +463,39 @@ def eliminar_usuario(request):
         except UsuarioPersonalizado.DoesNotExist:
             return JsonResponse({'success': False, 'error': 'Usuario no encontrado'})
     return JsonResponse({'success': False, 'error': 'Método no permitido'})
+
+def informe(request):
+    # Contar usuarios activados y desactivados
+    datos = FichaXaprendiz.objects.values('estadoC').annotate(total=Count('id'))
+    
+    # Formatear los datos para la gráfica
+    estados = {1: "Activos", 0: "Inactivos"}  # Ajusta según los valores de estadoC
+    data = {estados.get(d['estadoC'], "Desconocido"): d['total'] for d in datos}
+
+    return render(request, 'mainapp/super-informe.html', {'data': data})
+
+def exportar_excel(request):
+    # Crear el libro de trabajo y la hoja
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Usuarios"
+
+    # Agregar encabezados
+    ws.append(["Documento", "Nombre", "Ficha", "Estado"])
+
+    # Obtener datos de los usuarios con su ficha
+    usuarios = FichaXaprendiz.objects.select_related('documento_fk', 'num_ficha_fk')
+
+    for usuario in usuarios:
+        documento = usuario.documento_fk.documento if usuario.documento_fk else "Sin documento"
+        nombre = usuario.documento_fk.first_name if usuario.documento_fk else "Sin nombre"
+        ficha = usuario.num_ficha_fk.num_ficha if usuario.num_ficha_fk else "Sin ficha"
+        estado = "Activo" if usuario.estadoC else "Inactivo"
+        ws.append([documento, nombre, ficha, estado])
+
+    # Configurar la respuesta HTTP para la descarga del archivo
+    response = HttpResponse(content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    response["Content-Disposition"] = 'attachment; filename="usuarios.xlsx"'
+
+    wb.save(response)
+    return response

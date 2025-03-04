@@ -302,6 +302,25 @@ body {
 .btn-delete:hover {
   background-color: var(--color-primary);
 }
+/* Botones para ediar el estado del carnet */
+.estado-btn {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.estado-btn.activo {
+  background-color: var(--color-secundario);
+  color: white;
+}
+
+.estado-btn.inactivo {
+  background-color: red;
+  color: white;
+}
 .table-title {
   text-align: center;
   font-size: 24px;
