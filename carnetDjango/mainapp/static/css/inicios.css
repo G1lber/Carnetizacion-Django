@@ -214,6 +214,7 @@ body {
   border-collapse: collapse;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
+  margin-top: 20px;
 }
 
 .table th, .table td {

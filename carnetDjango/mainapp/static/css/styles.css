@@ -72,8 +72,35 @@ body {
     display: grid; /* Uso de grid para dividir áreas */
     grid-template-columns: 1fr 1fr; /* Dos columnas de igual tamaño */
     align-items: center;
+    justify-content: center;
+    gap: 20px;
     background-color: var(--color-transparent);
     z-index: 1;
+}
+
+/* Estilos base para las bolitas */
+.background::before, .background::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+/* Ajuste para pantallas grandes */
+.background::before {
+  width: 120px;
+  height: 120px;
+  background: #1F2A63;
+  top: -50px;
+  left: -50px;
+}
+
+.background::after {
+  width: 120px;
+  height: 120px;
+  background: #39A900;
+  bottom: -50px;
+  right: -50px;
 }
 
 .login__user {
@@ -88,6 +115,8 @@ body {
 }
 
 .login__form {
+    width: 100%;
+    max-width: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;

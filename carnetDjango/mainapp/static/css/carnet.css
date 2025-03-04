@@ -60,7 +60,14 @@ body {
     border: 2px solid #ddd;
     overflow: hidden; /* Esconde contenido que pueda desbordar */
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 0; /* Eliminamos el margen superior */
 }
+  .card-empty {
+    display: none; /* Inicialmente oculta la parte trasera */
+  }
 /* Evitar desbordes en texto */
 .card h2, .card p , .container p , .container h5 {
     word-wrap: break-word; /* Rompe palabras largas */

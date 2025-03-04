@@ -1,97 +1,94 @@
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .container__login {
-      width: 90%;
-      height: auto;
-      grid-template-columns: 1fr; /* Coloca elementos en una sola columna */
-      padding: 2rem 1rem;
-    }
-  
-    .login__user, .login__form {
-      text-align: center;
-    }
-  
-    .tittle__admin {
-      font-size: 20px;
-      margin-bottom: 1.5rem;
-    }
-  
-    .form__input {
-      width: 90%;
-    }
-  
-    .btn {
-        font-size: 1rem; /* Ajusta el texto */
-        padding: 0.8rem 1rem; /* Reduce el espaciado interno */
-        max-width: 250px; /* Ancho más pequeño */
-    }
-    .bottom__circle {
-      width: 20rem;
-      height: 12rem;
-    }
-  
-    .top__circle {
-      width: 25rem;
-      height: 15rem;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .container__login {
-      padding: 1rem;
-    }
-  
-    .tittle__admin {
-      font-size: 18px;
-    }
-  
-    .form__input {
-      font-size: 0.9rem;
-      padding: 0.6rem;
-    }
-  
-    .btn {
-        font-size: 0.9rem;
-        padding: 0.6rem 0.8rem;
-        max-width: 180px; /* Reduce el ancho mínimo */
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .container__login {
-      width: 100%;
-      padding: 0.5rem;
-      grid-template-columns: 1fr;
-    }
-  
-    .welcome__title {
-      font-size: 1.8rem;
-      padding: 0.5rem;
-    }
-    .welcome__text{
-        font-size: 0.9rem;
-        text-align: center;
-        transform: translateX(-0.4rem);
-    }
-    .welcome__image{
-       width: 30px;
-       margin-top: 1rem;
-    }
-    .btn {
-        font-size: 0.7rem; /* Texto más pequeño */
-        padding: 0.5rem 0.5rem; /* Menor espaciado interno */
-        width: 100%; /* Ocupa el ancho completo del contenedor */
-    }
-    .footer .footer__social{
-        height: 1rem;
-    }
-    .footer__icon{
-        margin-bottom: 4rem;
-    }
-   
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-  
-   
-  
 
+body {
+  font-family: "Poppins", sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f7f7f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  flex-direction: column;
+}
 
+/* Contenedor principal */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+}
+
+/* ---- Carnet ---- */
+.card {
+  width: 350px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  margin: 20px auto;
+  overflow: hidden;
+}
+
+.header__carnet {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.carnet__photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #ccc; /* Color de ejemplo */
+}
+
+.barcode-img {
+  width: 80%;
+  margin-top: 10px;
+}
+
+/* ---- Bolitas de fondo ---- */
+.background {
+  position: relative;
+  overflow: hidden;
+}
+
+.background::before,
+.background::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.background::before {
+  width: 100px;
+  height: 100px;
+  background: #1F2A63;
+  top: -50px;
+  left: -50px;
+}
+
+.background::after {
+  width: 100px;
+  height: 100px;
+  background: #39A900;
+  bottom: -50px;
+  right: -50px;
+}
+
+/* 🔥 ELIMINAR COMPLETAMENTE las bolitas en pantallas menores a 700px */
+@media (max-width: 700px) {
+  .background::before,
+  .background::after {
+    display: none;  /* Solo oculta los pseudo-elementos */
+  }
+}

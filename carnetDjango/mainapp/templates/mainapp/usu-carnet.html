@@ -6,13 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sena Carnet</title>
   <link rel="stylesheet" href="assets/fonts/fontawesome-free-6.1.2-web/css/all.min.css"/>
-    <link rel="stylesheet" href= {% static "css/reset.css" %}>
-    <link rel="stylesheet" href= {% static "css/carnet.css" %}>
-    <link rel="stylesheet" href={% static "css/styles.css" %}/>
+  <link rel="stylesheet" href= {% static "css/reset.css" %}>
+  <link rel="stylesheet" href= {% static "css/responsive.css" %}>
+  <link rel="stylesheet" href= {% static "css/carnet.css" %}>
+  <link rel="stylesheet" href={% static "css/styles.css" %}/>
 </head>
 <body>
+
+  <!-- Parte Trasera -->
   <div class="background">
-    <div class="card card-empty">
+    <div id="back-card" class="card"  style="display: none;">
       <div class="container">
         <p class="text1-carnet">Este carné es personal e instransferible;</p>
         <p class="text-carnet">identifica al portador como aprendiz del</p>
@@ -40,7 +43,9 @@
         <p class="text2-carnet">Ficha:{{ datos.num_ficha_fk|default:"No asignada" }}</p>
       </div>
     </div>
-    <div class="card">
+
+    <!-- Parte Delantera -->
+    <div id="front-card" class="card">
       <section class="header__carnet">
          <div class="carnet__logo">
             <img src="{% static "imagenes/logosena.png" %} " alt="Logo SENA" class="logo">
@@ -69,5 +74,7 @@
     <a href="{% url "logoutAprendiz" %}" class="back-button">Regresar</a>
     <div class="bottom__circle-carnet"></div>
   </section>
+  <script src="{% static "js/responsive.js" %}"></script> 
+
 </body>
 </html>
